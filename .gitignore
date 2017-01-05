@@ -69,7 +69,6 @@ misc/java/dist
 
 node_modules
 bower_components
-dist
 typings
 
 
