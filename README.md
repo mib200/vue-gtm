@@ -29,6 +29,20 @@ This plugin will helps you in your common GTM tasks.
 
 Here is an example of configuration, compose with it on your own :
 
+You have to include Google GTM normally as you would in any other application. Directly inside index.html (root page) of your app.
+
+For ex: 
+
+`<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-XXXXXX"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-XXXXXX');</script>`
+
+Then in your app.js of Vue project,
+
 ```javascript
 import VueGtm from 'vue-gtm'
 import VueRouter from 'vue-router'
