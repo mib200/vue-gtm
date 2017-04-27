@@ -24,10 +24,11 @@ export default class AnalyticsPlugin {
 		action = null,
 		label = null,
 		value = null,
-		noninteraction = false
+		noninteraction = false,
+		...rest
 	} = {}) {
 		if (inBrowser) {
-			logDebug('Dispatching event', { category, action, label, value });
+			logDebug('Dispatching event', { event, category, action, label, value, ...rest });
 
 			let dataLayer = window.dataLayer = window.dataLayer || [];
 			dataLayer.push({
@@ -36,7 +37,8 @@ export default class AnalyticsPlugin {
 				'action': action,
 				'target-properties': label,
 				'value': value,
-				'interaction-type': noninteraction
+				'interaction-type': noninteraction,
+				...rest
 			});
 		}	
 	}
