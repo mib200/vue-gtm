@@ -44,7 +44,7 @@ const initVueRouterGuard = function (Vue, vueRouter, ignoredViews) {
     }
 
     // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
-		Vue.gtm.trackView(to.meta.gtm || to.name, to.path);
+		Vue.gtm.trackView(to.meta.gtm || to.name, to.fullPath);
   })
 
   return ignoredViews;
