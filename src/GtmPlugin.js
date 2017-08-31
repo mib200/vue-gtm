@@ -7,7 +7,7 @@ var inBrowser = typeof window !== 'undefined';
 
 export default class AnalyticsPlugin {
 	trackView(screenName, path) {
-		if (inBrowser) {
+		if (inBrowser && pluginConfig.enabled) {
 			logDebug('Dispatching TrackView', { screenName, path });
 
 			let dataLayer = window.dataLayer = window.dataLayer || [];
@@ -27,7 +27,7 @@ export default class AnalyticsPlugin {
 		noninteraction = false,
 		...rest
 	} = {}) {
-		if (inBrowser) {
+		if (inBrowser && pluginConfig.enabled) {
 			logDebug('Dispatching event', { event, category, action, label, value, ...rest });
 
 			let dataLayer = window.dataLayer = window.dataLayer || [];
