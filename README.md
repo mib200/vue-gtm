@@ -80,7 +80,7 @@ export default {
       }
     },
     mounted () {
-      this.$ua.trackView('MyScreenName', 'currentpath');
+      this.$gtm.trackView('MyScreenName', 'currentpath');
     }
 }
 ```
