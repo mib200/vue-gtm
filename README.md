@@ -51,6 +51,9 @@ import VueRouter from 'vue-router'
 const router = new VueRouter({routes, mode, linkActiveClass})
 
 Vue.use(VueGtm, {
+  appName: '<app_name>', // Mandatory
+  appVersion: '<app_version>', // Mandatory
+  trackingId: '<your_tracking_id>', // Mandatory
   debug: true, // Whether or not display console logs debugs (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
   ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
@@ -71,12 +74,12 @@ export default {
     },
     methods: {
       onClick: function() {
-        this.$gtm.trackEvent({
-					category: 'Calculator',
-					action: 'click',
-					label: 'Home page SIP calculator',
-					value: 5000
-				});
+      this.$gtm.trackEvent({
+      	   category: 'Calculator',
+	   action: 'click',
+	   label: 'Home page SIP calculator',
+	   value: 5000
+      	});
       }
     },
     mounted () {
