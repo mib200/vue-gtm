@@ -27,7 +27,7 @@ This plugin will helps you in your common GTM tasks.
 
 # Configuration
 
-`npm install vue-gtm -S` or `yarn add vue-ua` if you use [Yarn package manager](https://yarnpkg.com/)
+`npm install vue-gtm -S` or `yarn add vue-gtm` if you use [Yarn package manager](https://yarnpkg.com/)
 
 Here is an example of configuration, compose with it on your own :
 
