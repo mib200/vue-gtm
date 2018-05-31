@@ -17,13 +17,12 @@ This plugin will helps you in your common GTM tasks.
 
 # Requirements
 
-- **Vue.js.** >= 2.0.0
-- **Google Tag Manager account.** To send data to
+* **Vue.js.** >= 2.0.0
+* **Google Tag Manager account.** To send data to
 
 **Optionnals dependencies**
 
-- **Vue Router** >= 2.x - In order to use auto-tracking of screens
-
+* **Vue Router** >= 2.x - In order to use auto-tracking of screens
 
 # Configuration
 
@@ -33,29 +32,23 @@ Here is an example of configuration, compose with it on your own :
 
 You have to include Google GTM normally as you would in any other application. Directly inside index.html (root page) of your app.
 
-For ex: 
+For ex:
 
-`<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-XXXXXX"
-	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-XXXXXX');</script>`
+`<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-XXXXXX');</script>`
 
 Then in your app.js of Vue project,
 
 ```javascript
-import VueGtm from 'vue-gtm'
-import VueRouter from 'vue-router'
-const router = new VueRouter({routes, mode, linkActiveClass})
+import VueGtm from 'vue-gtm';
+import VueRouter from 'vue-router';
+const router = new VueRouter({ routes, mode, linkActiveClass });
 
 Vue.use(VueGtm, {
   enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
   debug: true, // Whether or not display console logs debugs (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
-  ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
-})
+  ignoredViews: ['homepage'] // If router, you can exclude some routes name (case insensitive) (optional)
+});
 ```
 
 # Documentation
@@ -64,28 +57,28 @@ Once the configuration is completed, you can access vue gtm instance in your com
 
 ```javascript
 export default {
-    name: 'MyComponent',
-    data () {
-      return {
-        someData: false
-      }
-    },
-    methods: {
-      onClick: function() {
+  name: 'MyComponent',
+  data() {
+    return {
+      someData: false
+    };
+  },
+  methods: {
+    onClick: function() {
       this.$gtm.trackEvent({
-	   event: null, // Event type [default = 'interaction'] (Optional)
-      	   category: 'Calculator',
-	   action: 'click',
-	   label: 'Home page SIP calculator',
-	   value: 5000,
-	   noninteraction: false // Optional
-      	});
-      }
-    },
-    mounted () {
-      this.$gtm.trackView('MyScreenName', 'currentpath');
+        event: null, // Event type [default = 'interaction'] (Optional)
+        category: 'Calculator',
+        action: 'click',
+        label: 'Home page SIP calculator',
+        value: 5000,
+        noninteraction: false // Optional
+      });
     }
-}
+  },
+  mounted() {
+    this.$gtm.trackView('MyScreenName', 'currentpath');
+  }
+};
 ```
 
 The passed variables are mapped with GTM data layer as follows
@@ -111,22 +104,67 @@ Thanks to vue-router guards, you can automatically dispatch new screen views on 
 To use this feature, you just need to inject the router instance on plugin initialization.
 
 This feature will generate the view name according to a priority rule :
-- If you defined a meta field for you route named `gtm` this will take the value of this field for the view name.
-- Otherwise, if the plugin don't have a value for the `meta.gtm` it will fallback to the internal route name.
+
+* If you defined a meta field for you route named `gtm` this will take the value of this field for the view name.
+* Otherwise, if the plugin don't have a value for the `meta.gtm` it will fallback to the internal route name.
 
 Most of time the second case is enough, but sometimes you want to have more control on what is sent, this is where the first rule shine.
 
-Example : 
+Example :
+
 ```javascript
 const myRoute = {
   path: 'myRoute',
   name: 'MyRouteName',
   component: SomeComponent,
-  meta: {gtm: 'MyCustomValue'}
-}
+  meta: { gtm: 'MyCustomValue' }
+};
 ```
 
 > This will use `MyCustomValue` as the view name.
 
+## Methods
+
+### Enable plugin
+
+Check if plugin is enabled
+
+```
+this.$gtm.enabled
+```
+
+Enable plugin
+
+```
+this.$gtm.enable(true)
+```
+
+Disable plugin
+
+```
+this.$gtm.enable(false)
+```
+
+### Debug plugin
+
+Check if plugin is in debug mode
+
+```
+this.$gtm.debugEnabled
+```
+
+Enable debug mode
+
+```
+this.$gtm.debug(true)
+```
+
+Disable plugin
+
+```
+this.$gtm.debug(false)
+```
+
 ## Credits
+
 [ScreamZ vue-analytics](https://github.com/ScreamZ/vue-analytics)

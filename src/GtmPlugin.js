@@ -6,40 +6,63 @@ import pluginConfig from './config';
 var inBrowser = typeof window !== 'undefined';
 
 export default class AnalyticsPlugin {
-	trackView(screenName, path) {
-		if (inBrowser && pluginConfig.enabled) {
-			logDebug('Dispatching TrackView', { screenName, path });
+  enabled() {
+    return pluginConfig.enabled;
+  }
 
-			let dataLayer = window.dataLayer = window.dataLayer || [];
-			dataLayer.push({
-				'event': 'content-view',
-				'content-name': path
-			});
-		}	
-	}
+  enable(val) {
+    pluginConfig.enabled = val;
+  }
 
-	trackEvent({
-		event = null,
-		category = null,
-		action = null,
-		label = null,
-		value = null,
-		noninteraction = false,
-		...rest
-	} = {}) {
-		if (inBrowser && pluginConfig.enabled) {
-			logDebug('Dispatching event', { event, category, action, label, value, ...rest });
+  debugEnabled() {
+    return pluginConfig.debug;
+  }
 
-			let dataLayer = window.dataLayer = window.dataLayer || [];
-			dataLayer.push({
-				'event': event || 'interaction',
-				'target': category,
-				'action': action,
-				'target-properties': label,
-				'value': value,
-				'interaction-type': noninteraction,
-				...rest
-			});
-		}	
-	}
+  debug(val) {
+    pluginConfig.debug = val;
+  }
+
+  trackView(screenName, path) {
+    if (inBrowser && pluginConfig.enabled) {
+      logDebug('Dispatching TrackView', { screenName, path });
+
+      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      dataLayer.push({
+        event: 'content-view',
+        'content-name': path
+      });
+    }
+  }
+
+  trackEvent({
+    event = null,
+    category = null,
+    action = null,
+    label = null,
+    value = null,
+    noninteraction = false,
+    ...rest
+  } = {}) {
+    if (inBrowser && pluginConfig.enabled) {
+      logDebug('Dispatching event', {
+        event,
+        category,
+        action,
+        label,
+        value,
+        ...rest
+      });
+
+      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      dataLayer.push({
+        event: event || 'interaction',
+        target: category,
+        action: action,
+        'target-properties': label,
+        value: value,
+        'interaction-type': noninteraction,
+        ...rest
+      });
+    }
+  }
 }
