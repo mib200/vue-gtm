@@ -1,5 +1,5 @@
-import pluginConfig from './config';
-import GtmPlugin from './GtmPlugin';
+import pluginConfig from './config'
+import GtmPlugin from './GtmPlugin'
 
 /**
  * Installation procedure
@@ -11,16 +11,16 @@ const install = function (Vue, initConf = {}) {
   // Apply default configuration
   initConf = { ...pluginConfig, ...initConf }
 
-  pluginConfig.debug = initConf.debug;
-  pluginConfig.enabled = initConf.enabled;
+  pluginConfig.debug = initConf.debug
+  pluginConfig.enabled = initConf.enabled
 
   // Handle vue-router if defined
   if (initConf.vueRouter) {
-    initVueRouterGuard(Vue, initConf);
+    initVueRouterGuard(Vue, initConf)
   }
 
   // Add to vue prototype and also from globals
-  Vue.prototype.$gtm = Vue.gtm = new GtmPlugin();
+  Vue.prototype.$gtm = Vue.gtm = new GtmPlugin()
 }
 
 /**
@@ -36,7 +36,7 @@ const install = function (Vue, initConf = {}) {
 const initVueRouterGuard = function (Vue, { vueRouter, ignoredViews, trackOnNextTick }) {
   // Flatten routes name
   if (ignoredViews) {
-    ignoredViews = ignoredViews.map(view => view.toLowerCase());
+    ignoredViews = ignoredViews.map(view => view.toLowerCase())
   }
 
   vueRouter.afterEach(to => {
@@ -46,17 +46,17 @@ const initVueRouterGuard = function (Vue, { vueRouter, ignoredViews, trackOnNext
     }
 
     // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
-    const name = to.meta.gtm || to.name;
+    const name = to.meta.gtm || to.name
     if (trackOnNextTick) {
       Vue.nextTick(() => {
-        Vue.gtm.trackView(name, to.fullPath);
-      });
+        Vue.gtm.trackView(name, to.fullPath)
+      })
     } else {
-      Vue.gtm.trackView(name, to.fullPath);
+      Vue.gtm.trackView(name, to.fullPath)
     }
   })
 
-  return ignoredViews;
+  return ignoredViews
 }
 
 // Export module
