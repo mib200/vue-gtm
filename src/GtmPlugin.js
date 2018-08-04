@@ -1,36 +1,36 @@
-import { logDebug } from './utils';
-import pluginConfig from './config';
+import { logDebug } from './utils'
+import pluginConfig from './config'
 /**
  * Plugin main class
  */
-var inBrowser = typeof window !== 'undefined';
+var inBrowser = typeof window !== 'undefined'
 
 export default class AnalyticsPlugin {
   enabled() {
-    return pluginConfig.enabled;
+    return pluginConfig.enabled
   }
 
   enable(val) {
-    pluginConfig.enabled = val;
+    pluginConfig.enabled = val
   }
 
   debugEnabled() {
-    return pluginConfig.debug;
+    return pluginConfig.debug
   }
 
   debug(val) {
-    pluginConfig.debug = val;
+    pluginConfig.debug = val
   }
 
   trackView(screenName, path) {
     if (inBrowser && pluginConfig.enabled) {
-      logDebug('Dispatching TrackView', { screenName, path });
+      logDebug('Dispatching TrackView', { screenName, path })
 
-      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      let dataLayer = (window.dataLayer = window.dataLayer || [])
       dataLayer.push({
         event: 'content-view',
         'content-name': path
-      });
+      })
     }
   }
 
@@ -51,9 +51,9 @@ export default class AnalyticsPlugin {
         label,
         value,
         ...rest
-      });
+      })
 
-      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      let dataLayer = (window.dataLayer = window.dataLayer || [])
       dataLayer.push({
         event: event || 'interaction',
         target: category,
@@ -62,7 +62,7 @@ export default class AnalyticsPlugin {
         value: value,
         'interaction-type': noninteraction,
         ...rest
-      });
+      })
     }
   }
 }
