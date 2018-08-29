@@ -130,7 +130,7 @@ const myRoute = {
 Check if plugin is enabled
 
 ```
-this.$gtm.enabled
+this.$gtm.enabled()
 ```
 
 Enable plugin
@@ -150,7 +150,7 @@ this.$gtm.enable(false)
 Check if plugin is in debug mode
 
 ```
-this.$gtm.debugEnabled
+this.$gtm.debugEnabled()
 ```
 
 Enable debug mode
