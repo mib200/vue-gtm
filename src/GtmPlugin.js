@@ -1,4 +1,4 @@
-import { logDebug } from './utils'
+import { logDebug, loadScript, hasScript } from './utils'
 import pluginConfig from './config'
 /**
  * Plugin main class
@@ -12,6 +12,10 @@ export default class AnalyticsPlugin {
 
   enable(val) {
     pluginConfig.enabled = val
+
+    if (inBrowser && !!val && !hasScript()) {
+      loadScript(pluginConfig.id)
+    }
   }
 
   debugEnabled() {
