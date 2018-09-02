@@ -30,26 +30,22 @@ This plugin will helps you in your common GTM tasks.
 
 Here is an example of configuration, compose with it on your own :
 
-You have to include Google GTM normally as you would in any other application. Directly inside index.html (root page) of your app.
-
-For ex:
-
-`<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-XXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-XXXXXX');</script>`
-
-Then in your app.js of Vue project,
-
 ```javascript
 import VueGtm from 'vue-gtm';
 import VueRouter from 'vue-router';
 const router = new VueRouter({ routes, mode, linkActiveClass });
 
 Vue.use(VueGtm, {
+  id: 'GTM-xxxxxxx', // Your GTM ID
   enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
   debug: true, // Whether or not display console logs debugs (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
   ignoredViews: ['homepage'] // If router, you can exclude some routes name (case insensitive) (optional)
 });
 ```
+
+This injects the tag manager script in the page, except when `enabled` is set to `false`. 
+In that case it will be injected when calling `this.$gtm.enable(true)` for the first time.
 
 # Documentation
 
