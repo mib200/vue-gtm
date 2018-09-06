@@ -1,3 +1,4 @@
+import { loadScript } from './utils'
 import pluginConfig from './config'
 import GtmPlugin from './GtmPlugin'
 
@@ -11,6 +12,7 @@ const install = function (Vue, initConf = {}) {
   // Apply default configuration
   initConf = { ...pluginConfig, ...initConf }
 
+  pluginConfig.id = initConf.id
   pluginConfig.debug = initConf.debug
   pluginConfig.enabled = initConf.enabled
 
@@ -21,6 +23,11 @@ const install = function (Vue, initConf = {}) {
 
   // Add to vue prototype and also from globals
   Vue.prototype.$gtm = Vue.gtm = new GtmPlugin()
+
+  // Load GTM script when enabled
+  if (pluginConfig.enabled) {
+    loadScript(initConf.id);
+  }
 }
 
 /**

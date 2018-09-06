@@ -9,3 +9,36 @@ export const logDebug = function (message) {
     console.log('VueGtm :', ...arguments)
   }
 }
+
+/**
+ * Load GTM script tag
+ * @param {String}  id  GTM ID
+ */
+export const loadScript = function (id) {
+  const win    = window,
+        doc    = document,
+        script = doc.createElement('script'),
+        dl     = 'dataLayer'
+
+  win[dl] = win[dl] || []
+
+  win[dl].push({
+    event      :'gtm.js',
+    'gtm.start': new Date().getTime(),
+  })
+
+  script.async = true;
+  script.src   = `https://www.googletagmanager.com/gtm.js?id=${id}`
+
+  doc.body.appendChild(script)
+}
+
+/**
+ * Check if GTM script is in the document
+ * @return {boolean}
+ */
+export const hasScript = function () {
+  return Array
+    .from(document.getElementsByName('script'))
+    .some(script => script.src.includes('googletagmanager'))
+}
