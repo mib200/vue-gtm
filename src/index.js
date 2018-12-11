@@ -48,7 +48,7 @@ const initVueRouterGuard = function (Vue, { vueRouter, ignoredViews, trackOnNext
 
   vueRouter.afterEach(to => {
     // Ignore some routes
-    if (ignoredViews && ignoredViews.indexOf(to.name.toLowerCase()) !== -1) {
+    if (!to.name || (ignoredViews && ignoredViews.indexOf(to.name.toLowerCase()) !== -1)) {
       return
     }
 
