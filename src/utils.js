@@ -27,6 +27,10 @@ export const loadScript = function (id) {
     'gtm.start': new Date().getTime(),
   })
 
+  if (!id) {
+    return
+  }
+
   script.async = true;
   script.src   = `https://www.googletagmanager.com/gtm.js?id=${id}`
 
