@@ -33,7 +33,8 @@ export default class AnalyticsPlugin {
       let dataLayer = (window.dataLayer = window.dataLayer || [])
       dataLayer.push({
         event: 'content-view',
-        'content-name': path
+        'content-name': path,
+        'content-view-name': screenName
       })
     }
   }
