@@ -70,4 +70,12 @@ export default class AnalyticsPlugin {
       })
     }
   }
+
+  get dataLayer() {
+    if (inBrowser && pluginConfig.enabled) {
+      return (window.dataLayer = window.dataLayer || []);
+    }
+
+    return false;
+  }
 }
