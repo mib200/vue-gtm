@@ -164,3 +164,6 @@ this.$gtm.debug(false)
 ## Credits
 
 [ScreamZ vue-analytics](https://github.com/ScreamZ/vue-analytics)
+
+## Related Projects
++ [analytics-vue](https://github.com/segmentio/analytics-vue): Write analytics code once, collect customer data from any source, and send it to over 250+ destinations with [Segment](https://segment.com/).
