@@ -37,6 +37,11 @@ const router = new VueRouter({ routes, mode, linkActiveClass });
 
 Vue.use(VueGtm, {
   id: 'GTM-xxxxxxx', // Your GTM ID
+  queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
+    gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
+    gtm_preview:'env-4',
+    gtm_cookies_win:'x'
+  },
   enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
   debug: true, // Whether or not display console logs debugs (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
@@ -93,6 +98,40 @@ dataLayer.push({
 
 You can also access the instance anywhere whenever you imported `Vue` by using `Vue.gtm`. It is especially useful when you are in a store module or
 somewhere else than a component's scope.
+
+## Use the queryParams to load gtm.js with dynamic parameters
+
+If you have mutliple types of environment in GTM, for example, Live(production), Staging, Dev, etc.
+To use different environment, you should load gtm.js with different url query string respectively in your website.
+That's why we need `queryParams` argument to append some query string to the url which use for load gtm.js.
+
+More detail: [Google Tag Manager Environments Tutorial](https://marketlytics.com/blog/google-tag-manager-environments)
+
+Example :
+
+```javascript
+import VueGtm from 'vue-gtm';
+
+Vue.use(VueGtm, {
+  id: 'GTM-xxxxxxx', // Your GTM ID
+  queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
+    gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
+    gtm_preview:'env-4',
+    gtm_cookies_win:'x'
+  },
+  enabled: true
+  ...
+});
+```
+
+The example above will generate url with GTM ID like below and load gtm.js by this url
+`https://www.googletagmanager.com/gtm.js?id=GTM-xxxxxxx&gtm_auth=AB7cDEf3GHIjkl-MnOP8qr&gtm_preview=env-4&gtm_cookies_win=x`
+
+
+So, if you don't need the dynamic parameters, you can remove the `queryParams` in config,
+and the url will generate like below and load gtm.js by this url
+`https://www.googletagmanager.com/gtm.js?id=GTM-xxxxxxx&`
+(Yes, the url has the `&` at end of line, you can use it without any side effect)
 
 ## Sync gtm with your router
 
@@ -164,3 +203,4 @@ this.$gtm.debug(false)
 ## Credits
 
 [ScreamZ vue-analytics](https://github.com/ScreamZ/vue-analytics)
+[NorthBei])(https://github.com/NorthBei)
