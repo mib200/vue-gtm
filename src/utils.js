@@ -31,13 +31,11 @@ export const loadScript = function (id, queryParams) {
     return
   }
 
-  let querys = []
-  for (const [key, value] of Object.entries(queryParams)) {
-    querys.push(key + '=' + value)
-  }
+  const searchParams = new URLSearchParams(queryParams)
+  searchParams.append('id', id)
 
   script.async = true;
-  script.src   = `https://www.googletagmanager.com/gtm.js?id=${id}&${querys.join('&')}`
+  script.src   = `https://www.googletagmanager.com/gtm.js?${searchParams.toString()}`
 
   doc.body.appendChild(script)
 }
