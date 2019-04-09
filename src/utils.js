@@ -13,6 +13,7 @@ export const logDebug = function (message) {
 /**
  * Load GTM script tag
  * @param {String}  id  GTM ID
+ * @param {Object}  queryParams  query string of url
  */
 export const loadScript = function (id, queryParams) {
   const win    = window,
@@ -34,7 +35,7 @@ export const loadScript = function (id, queryParams) {
   const searchParams = new URLSearchParams(queryParams)
   searchParams.append('id', id)
 
-  script.async = true;
+  script.async = true
   script.src   = `https://www.googletagmanager.com/gtm.js?${searchParams.toString()}`
 
   doc.body.appendChild(script)
