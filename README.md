@@ -47,6 +47,8 @@ Vue.use(VueGtm, {
 This injects the tag manager script in the page, except when `enabled` is set to `false`. 
 In that case it will be injected when calling `this.$gtm.enable(true)` for the first time.
 
+Remember to enable the History Change Trigger for router changes to be sent through GTM.
+
 # Documentation
 
 Once the configuration is completed, you can access vue gtm instance in your components like that :
