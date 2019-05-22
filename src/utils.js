@@ -32,7 +32,7 @@ export const loadScript = function (id) {
   }
 
   script.async = true;
-  script.src   = `https://www.googletagmanager.com/gtm.js?id=${id}`
+  script.src = `${pluginConfig.scriptUrl}?id=${id}`
 
   doc.body.appendChild(script)
 }
