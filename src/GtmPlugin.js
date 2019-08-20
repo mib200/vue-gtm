@@ -26,6 +26,13 @@ export default class AnalyticsPlugin {
     pluginConfig.debug = val
   }
 
+  dataLayer() {
+    if (inBrowser && pluginConfig.enabled) {
+      return (window.dataLayer = window.dataLayer || []);
+    }
+    return false;
+  }
+
   trackView(screenName, path) {
     if (inBrowser && pluginConfig.enabled) {
       logDebug('Dispatching TrackView', { screenName, path })
