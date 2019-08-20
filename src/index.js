@@ -26,7 +26,13 @@ const install = function (Vue, initConf = {}) {
 
   // Load GTM script when enabled
   if (pluginConfig.enabled) {
-    loadScript(initConf.id);
+    if (Array.isArray(initConf.id)) {
+      initConf.id.forEach((id) => {
+        loadScript(id);
+      });
+    } else {
+      loadScript(initConf.id);
+    }
   }
 }
 
