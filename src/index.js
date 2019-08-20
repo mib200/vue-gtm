@@ -28,10 +28,10 @@ const install = function (Vue, initConf = {}) {
   if (pluginConfig.enabled) {
     if (Array.isArray(initConf.id)) {
       initConf.id.forEach((id) => {
-        loadScript(id);
+        loadScript(id, initConf.queryParams);
       });
     } else {
-      loadScript(initConf.id);
+      loadScript(initConf.id, initConf.queryParams);
     }
   }
 }

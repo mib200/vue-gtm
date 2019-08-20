@@ -36,7 +36,12 @@ import VueRouter from 'vue-router';
 const router = new VueRouter({ routes, mode, linkActiveClass });
 
 Vue.use(VueGtm, {
-  id: 'GTM-xxxxxxx', // Your GTM single container ID or array of container ids ['GTM-xxxxxxx', 'GTM-yyyyyyy']
+  id: 'GTM-xxxxxxx' or ['GTM-xxxxxxx', 'GTM-xxxxxxx'], // Your GTM single container ID or array of container ids ['GTM-xxxxxxx', 'GTM-yyyyyyy']
+  queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
+    gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
+    gtm_preview:'env-4',
+    gtm_cookies_win:'x'
+  },
   enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
   debug: true, // Whether or not display console logs debugs (optional)
   loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional) 
