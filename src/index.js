@@ -54,12 +54,13 @@ const initVueRouterGuard = function (Vue, { vueRouter, ignoredViews, trackOnNext
 
     // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
     const name = to.meta.gtm || to.name
+    const baseUrl = vueRouter.options.base || '';
     if (trackOnNextTick) {
       Vue.nextTick(() => {
-        Vue.gtm.trackView(name, to.fullPath)
+        Vue.gtm.trackView(name, `${baseUrl}${to.fullPath}`)
       })
     } else {
-      Vue.gtm.trackView(name, to.fullPath)
+      Vue.gtm.trackView(name, `${baseUrl}${to.fullPath}`)
     }
   })
 
