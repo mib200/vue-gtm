@@ -13,7 +13,7 @@ export default class AnalyticsPlugin {
   enable(val) {
     pluginConfig.enabled = val
 
-    if (inBrowser && !!val && !hasScript()) {
+    if (inBrowser && !!val && !hasScript() && pluginConfig.loadScript) {
       loadScript(pluginConfig.id)
     }
   }
