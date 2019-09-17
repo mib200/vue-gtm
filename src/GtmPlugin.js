@@ -34,9 +34,9 @@ export default class AnalyticsPlugin {
   }
 
   trackView(screenName, path) {
-    if (inBrowser && pluginConfig.enabled) {
-      logDebug('Dispatching TrackView', { screenName, path })
+    logDebug('Dispatching TrackView', { screenName, path })
 
+    if (inBrowser && pluginConfig.enabled) {
       let dataLayer = (window.dataLayer = window.dataLayer || [])
       dataLayer.push({
         event: 'content-view',
@@ -55,16 +55,16 @@ export default class AnalyticsPlugin {
     noninteraction = false,
     ...rest
   } = {}) {
-    if (inBrowser && pluginConfig.enabled) {
-      logDebug('Dispatching event', {
-        event,
-        category,
-        action,
-        label,
-        value,
-        ...rest
-      })
+    logDebug('Dispatching event', {
+      event,
+      category,
+      action,
+      label,
+      value,
+      ...rest
+    })
 
+    if (inBrowser && pluginConfig.enabled) {
       let dataLayer = (window.dataLayer = window.dataLayer || [])
       dataLayer.push({
         event: event || 'interaction',
