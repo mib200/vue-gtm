@@ -3,6 +3,7 @@
   "version": "2.2.0",
   "description": "Google Tag Manager implementation in Vue application",
   "main": "./dist/vue-gtm.min.js",
+  "typings": "types/index.d.ts",
   "author": "Manish Kumar",
   "license": "Apache-2.0",
   "homepage": "https://github.com/mib200/vue-gtm",
