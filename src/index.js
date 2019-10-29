@@ -15,6 +15,7 @@ const install = function (Vue, initConf = {}) {
   pluginConfig.id = initConf.id
   pluginConfig.debug = initConf.debug
   pluginConfig.enabled = initConf.enabled
+  pluginConfig.loadScript = initConf.loadScript
 
   // Handle vue-router if defined
   if (initConf.vueRouter) {
