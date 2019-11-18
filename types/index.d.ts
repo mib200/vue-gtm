@@ -1,4 +1,4 @@
-import Vue, { PluginFunction } from "vue"
+import Vue, { PluginFunction, VueConstructor } from "vue"
 
 declare const VueGtm: VueGtm
 export default VueGtm
@@ -83,5 +83,8 @@ export interface VueGtmObject {
 declare module "vue/types/vue" {
   interface Vue {
     $gtm: VueGtmObject
+  }
+  interface VueConstructor {
+    gtm: VueGtmObject
   }
 }
