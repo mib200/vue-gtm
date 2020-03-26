@@ -1,10 +1,8 @@
-import Vue, { PluginFunction, VueConstructor } from "vue"
+import Vue, { PluginObject, VueConstructor } from "vue"
 
-declare const VueGtm: VueGtm
+declare const VueGtm: VueGtmPlugin
 export default VueGtm
-export interface VueGtm {
-  install: PluginFunction<VueGtmUseOptions>
-}
+export interface VueGtmPlugin extends PluginObject<VueGtmUseOptions> {}
 
 export interface VueGtmUseOptions {
   /**
