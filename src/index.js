@@ -25,7 +25,7 @@ const install = function (Vue, initConf = {}) {
   Vue.prototype.$gtm = Vue.gtm = new GtmPlugin()
 
   // Load GTM script when enabled and loadScript equal true
-  if (pluginConfig.enabled && pluginConfig.loadScript) {
+  if (pluginConfig.enabled && initConf.loadScript) {
     if (Array.isArray(initConf.id)) {
       initConf.id.forEach((id) => {
         loadScript(id, initConf.queryParams);
