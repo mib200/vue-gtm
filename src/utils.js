@@ -43,6 +43,6 @@ export const loadScript = function (id) {
  */
 export const hasScript = function () {
   return Array
-    .from(document.getElementsByName('script'))
+    .from(document.getElementsByTagName('script'))
     .some(script => script.src.includes('googletagmanager'))
 }

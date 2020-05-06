@@ -13,7 +13,7 @@ export default class AnalyticsPlugin {
   enable(val) {
     pluginConfig.enabled = val
 
-    if (inBrowser && !!val && !hasScript()) {
+    if (inBrowser && !!val && !hasScript() && pluginConfig.loadScript) {
       loadScript(pluginConfig.id)
     }
   }
@@ -24,6 +24,13 @@ export default class AnalyticsPlugin {
 
   debug(val) {
     pluginConfig.debug = val
+  }
+
+  dataLayer() {
+    if (inBrowser && pluginConfig.enabled) {
+      return (window.dataLayer = window.dataLayer || []);
+    }
+    return false;
   }
 
   trackView(screenName, path) {

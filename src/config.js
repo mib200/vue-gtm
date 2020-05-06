@@ -1,5 +1,7 @@
 export default {
   enabled: true,
   debug: false,
-  trackOnNextTick: false
+  trackOnNextTick: false,
+  queryParams: {},
+  loadScript: true,
 }
