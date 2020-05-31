@@ -15,6 +15,7 @@ const install = function (Vue, initConf = {}) {
   pluginConfig.id = initConf.id
   pluginConfig.debug = initConf.debug
   pluginConfig.enabled = initConf.enabled
+  pluginConfig.loadScript = initConf.loadScript
 
   // Handle vue-router if defined
   if (initConf.vueRouter) {
@@ -25,7 +26,7 @@ const install = function (Vue, initConf = {}) {
   Vue.prototype.$gtm = Vue.gtm = new GtmPlugin()
 
   // Load GTM script when enabled
-  if (pluginConfig.enabled) {
+  if (pluginConfig.enabled && pluginConfig.loadScript) {
     if (Array.isArray(initConf.id)) {
       initConf.id.forEach((id) => {
         loadScript(id, initConf.queryParams);
