@@ -34,10 +34,10 @@ export const loadScript = function (id, config) {
 
   script.async = true;
   script.defer = config.defer || false;
-  
+
   const queryString = new URLSearchParams({
     id,
-    ...(config.params || {})
+    ...(config.queryParams || {})
   })
   script.src   = `https://www.googletagmanager.com/gtm.js?${queryString}`
   doc.body.appendChild(script)
