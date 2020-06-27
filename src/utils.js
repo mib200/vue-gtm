@@ -1,4 +1,5 @@
-import pluginConfig from './config'
+import 'url-search-params-polyfill';
+import pluginConfig from './config';
 
 /**
  * Console log depending on config debug mode

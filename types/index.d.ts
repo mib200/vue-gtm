@@ -4,6 +4,16 @@ declare const VueGtm: VueGtmPlugin
 export default VueGtm
 export interface VueGtmPlugin extends PluginObject<VueGtmUseOptions> {}
 
+export interface VueGtmTrackEventParams {
+  [key: string]: any
+  event?: any
+  category?: any
+  action?: any
+  label?: any
+  value?: any
+  noninteraction?: boolean
+}
+
 export interface VueGtmUseOptions {
   /**
    * Your GTM single container ID or array of container ids ['GTM-xxxxxxx', 'GTM-yyyyyyy']
@@ -68,14 +78,7 @@ export interface VueGtmObject {
     value,
     noninteraction,
     ...rest
-  }?: {
-    event?: any
-    category?: any
-    action?: any
-    label?: any
-    value?: any
-    noninteraction?: boolean
-  }): void
+  }?: VueGtmTrackEventParams): void
 }
 
 declare module "vue/types/vue" {
