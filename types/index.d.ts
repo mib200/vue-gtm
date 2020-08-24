@@ -20,7 +20,7 @@ export interface VueGtmUseOptions {
    */
   id: string | string[]
   /**
-   * Add url query string when load gtm with GTM ID
+   * Add url query string when load gtm.js with GTM ID
    */
   queryParams?: {
     gtm_auth: string
@@ -28,7 +28,15 @@ export interface VueGtmUseOptions {
     gtm_cookies_win: string
   }
   /**
-   * Defaults to `true`. Plugin can be disabled by setting this to `false` for Ex: `enabled: !!GDPR_Cookie`
+   * Script can be set to `defer` to increase page-load-time at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible)
+   *
+   * @default false
+   */
+  defer?: boolean
+  /**
+   * Plugin can be disabled by setting this to `false` for Ex: `enabled: !!GDPR_Cookie`
+   *
+   * @default true
    */
   enabled?: boolean
   /**
@@ -56,6 +64,7 @@ export interface VueGtmObject {
   enabled(): boolean
   /**
    * Enable or disable plugin
+   *
    * @param val state
    */
   enable(val: boolean): void
@@ -65,6 +74,7 @@ export interface VueGtmObject {
   debugEnabled(): boolean
   /**
    * Enable or disable debug mode
+   *
    * @param val state
    */
   debug(val: boolean): void
