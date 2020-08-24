@@ -2,30 +2,27 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
+  mode: 'production',
   entry: [
     './src/index.js'
   ],
   output: {
-    filename: 'dist/vue-gtm.min.js',
+    filename: 'vue-gtm.min.js',
     libraryTarget: 'commonjs2'
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
-  ],
   resolve: {
     extensions: [ '.js', '.json' ]
   },
+  optimization: {
+    minimize: true
+  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        query: {
-          presets: [ 'es2015', 'stage-2' ]
+        options: {
+          presets: ['@babel/preset-env']
         },
         exclude: /node_modules/
       }
