@@ -6,6 +6,10 @@ import pluginConfig from './config'
 var inBrowser = typeof window !== 'undefined'
 
 export default class AnalyticsPlugin {
+  constructor(id) {
+    this.id = id;
+  }
+
   enabled() {
     return pluginConfig.enabled
   }
@@ -14,7 +18,7 @@ export default class AnalyticsPlugin {
     pluginConfig.enabled = val
 
     if (inBrowser && !!val && !hasScript() && pluginConfig.loadScript) {
-      loadScript(pluginConfig.id)
+      loadScript(this.id)
     }
   }
 
