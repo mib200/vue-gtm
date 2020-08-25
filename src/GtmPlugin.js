@@ -18,7 +18,10 @@ export default class AnalyticsPlugin {
     pluginConfig.enabled = val
 
     if (inBrowser && !!val && !hasScript() && pluginConfig.loadScript) {
-      loadScript(this.id)
+      loadScript(this.id, {
+        defer: pluginConfig.defer,
+        queryParams: pluginConfig.queryParams
+      })
     }
   }
 
