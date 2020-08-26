@@ -4,4 +4,5 @@ export default {
   trackOnNextTick: false,
   queryParams: {},
   loadScript: true,
+  defer: false
 }

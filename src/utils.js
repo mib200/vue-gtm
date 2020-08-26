@@ -16,7 +16,7 @@ export const logDebug = function (message) {
  * @param {String}  id  GTM ID
  * @param {Object}  params query params object
  */
-export const loadScript = function (id, config) {
+export const loadScript = function (id, config = {}) {
   const win    = window,
         doc    = document,
         script = doc.createElement('script'),
