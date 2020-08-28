@@ -1,5 +1,6 @@
 <h1 align="center">
   Vue Google Tag Manager
+  <h4 align="center">*** Maintainers & Contributors welcome ***</h4>
   <br>
   <br>
 </h1>
