@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "inlineSourceMap": false,
+    "lib": ["ES2015", "DOM"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "removeComments": true,
+    "downlevelIteration": true,
+    "declaration": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
