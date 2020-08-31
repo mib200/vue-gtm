@@ -1,6 +1,6 @@
 {
   "name": "vue-gtm",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Google Tag Manager implementation in Vue application",
   "main": "./dist/vue-gtm.min.js",
   "typings": "types/index.d.ts",
