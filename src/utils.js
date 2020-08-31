@@ -51,5 +51,5 @@ export const loadScript = function (id, config = {}) {
 export const hasScript = function () {
   return Array
     .from(document.getElementsByTagName('script'))
-    .some(script => script.src.includes('googletagmanager'))
+    .some(script => script.src.includes('googletagmanager.com/gtm.js'))
 }
