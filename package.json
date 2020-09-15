@@ -50,15 +50,15 @@
     "vue",
     "google"
   ],
+  "dependencies": {
+    "url-search-params-polyfill": "^8.1.0"
+  },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
-    "@babel/preset-env": "^7.11.0",
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
     "babel-loader": "^8.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
-  },
-  "dependencies": {
-    "url-search-params-polyfill": "^8.1.0"
   },
   "browserslist": [
     ">1%",
