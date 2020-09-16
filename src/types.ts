@@ -1,7 +1,3 @@
-import { PluginObject } from "vue";
-
-export interface VueGtmPlugin extends PluginObject<VueGtmUseOptions> {}
-
 export interface VueGtmTrackEventParams {
   [key: string]: any;
   event?: any;
@@ -14,7 +10,7 @@ export interface VueGtmTrackEventParams {
 
 export interface VueGtmUseOptions {
   /**
-   * Your GTM single container ID or array of container ids ['GTM-xxxxxxx', 'GTM-yyyyyyy']
+   * Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
    */
   id: string | string[];
   /**

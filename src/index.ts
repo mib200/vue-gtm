@@ -1,8 +1,10 @@
-import { VueConstructor } from "vue";
+import _Vue, { PluginObject } from "vue";
 import pluginConfig from "./config";
 import GtmPlugin from "./GtmPlugin";
-import { VueGtmUseOptions } from "./types";
+import { VueGtmObject, VueGtmUseOptions } from "./types";
 import { loadScript } from "./utils";
+
+const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
 
 /**
  * Installation procedure
@@ -10,7 +12,17 @@ import { loadScript } from "./utils";
  * @param Vue
  * @param initConf
  */
-function install(Vue: VueConstructor, initConf: VueGtmUseOptions) {
+function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }) {
+  if (Array.isArray(initConf.id)) {
+    for (const id of initConf.id) {
+      if (!GTM_ID_PATTERN.test(id)) {
+        throw new Error(`GTM-ID '${id}' is not valid`);
+      }
+    }
+  } else if (!GTM_ID_PATTERN.test(initConf.id)) {
+    throw new Error(`GTM-ID '${initConf.id}' is not valid`);
+  }
+
   // Apply default configuration
   initConf = { ...pluginConfig, ...initConf };
 
@@ -52,7 +64,7 @@ function install(Vue: VueConstructor, initConf: VueGtmUseOptions) {
  * @returns The ignored routes names formalized.
  */
 function initVueRouterGuard(
-  Vue: VueConstructor,
+  Vue: typeof _Vue,
   { vueRouter, ignoredViews, trackOnNextTick }: VueGtmUseOptions
 ): string[] | undefined {
   // Flatten routes name
@@ -94,5 +106,17 @@ function initVueRouterGuard(
   return ignoredViews;
 }
 
-// Export module
-export default { install };
+declare module "vue/types/vue" {
+  export interface Vue {
+    $gtm: VueGtmObject;
+  }
+  export interface VueConstructor<V extends Vue = Vue> {
+    gtm: VueGtmObject;
+  }
+}
+
+export type VueGtmPlugin = PluginObject<VueGtmUseOptions>;
+
+const _default: VueGtmPlugin = { install };
+
+export default _default;

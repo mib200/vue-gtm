@@ -3,7 +3,6 @@
   "version": "2.4.0",
   "description": "Google Tag Manager implementation in Vue application",
   "main": "dist/index.js",
-  "typings": "types/index.d.ts",
   "author": {
     "name": "Manish Kumar",
     "url": "https://github.com/mib200"
