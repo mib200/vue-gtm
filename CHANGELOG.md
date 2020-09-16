@@ -1,6 +1,13 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/2.3.4...master)
+[diff](https://github.com/mib200/vue-gtm/compare/2.4.0...master)
+
+# 2.4.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/2.3.4...2.4.0)
+
+- Throw error on invalid `GTM-ID`
+- Project rewritten to TypeScript
 
 # 2.3.4
 
