@@ -1,9 +1,8 @@
 {
   "name": "vue-gtm",
-  "version": "2.3.4",
+  "version": "2.4.0",
   "description": "Google Tag Manager implementation in Vue application",
-  "main": "./dist/vue-gtm.min.js",
-  "typings": "types/index.d.ts",
+  "main": "dist/index.js",
   "author": {
     "name": "Manish Kumar",
     "url": "https://github.com/mib200"
@@ -18,7 +17,7 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/mib200/vue-gtm",
   "scripts": {
-    "build": "webpack-cli --config webpack.config.js --progress --hide-modules"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -26,9 +25,6 @@
   },
   "bugs": {
     "url": "https://github.com/mib200/vue-gtm/issues"
-  },
-  "jshintConfig": {
-    "esversion": 6
   },
   "keywords": [
     "analytics",
@@ -50,19 +46,19 @@
     "vue",
     "google"
   ],
+  "files": [
+    "dist",
+    "src",
+    "tsconfig.json"
+  ],
   "dependencies": {
     "url-search-params-polyfill": "^8.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
-    "babel-loader": "^8.1.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "typescript": "^4.0.2",
+    "vue": "^2.6.12"
   },
-  "browserslist": [
-    ">1%",
-    "not dead",
-    "ie 11"
-  ]
+  "peerDependencies": {
+    "vue": "^2.6.0"
+  }
 }
