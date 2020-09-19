@@ -16,6 +16,7 @@
 ## Other Changes
 
 - Throw error on invalid `GTM-ID`
+- Fix handling of multiple `GTM-ID`s
 - Project rewritten to TypeScript
 
 # 2.3.4
