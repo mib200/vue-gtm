@@ -53,6 +53,37 @@ This plugin will help you in your common GTM tasks.
 Here is an example configuration:
 
 ```js
+import { createApp } from 'vue';
+import VueGtm, { VueGtmUseOptions } from 'vue-gtm';
+import VueRouter from 'vue-router';
+const router = new VueRouter({ routes, mode, linkActiveClass });
+
+const app = createApp(App);
+
+// Use a variable to get JSDoc support as well as type checking
+const vueGtmOptions: VueGtmUseOptions = {
+  id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
+  queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
+    gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
+    gtm_preview:'env-4',
+    gtm_cookies_win:'x'
+  },
+  defer: false, // defaults to false. Script can be set to `defer` to increase page-load-time at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible)
+  enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
+  debug: true, // Whether or not display console logs debugs (optional)
+  loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
+  vueRouter: router, // Pass the router instance to automatically sync with router (optional)
+  ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
+  trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
+}
+
+app.use(VueGtm, vueGtmOptions);
+```
+
+<details>
+  <summary>Vue 2 example</summary>
+
+```js
 import VueGtm from 'vue-gtm';
 import VueRouter from 'vue-router';
 const router = new VueRouter({ routes, mode, linkActiveClass });
@@ -73,6 +104,8 @@ Vue.use(VueGtm, {
   trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
 });
 ```
+
+</details>
 
 This injects the tag manager script in the page, except when `enabled` is set to `false`.
 In that case it will be injected when calling `this.$gtm.enable(true)` for the first time.
