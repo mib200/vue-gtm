@@ -56,9 +56,9 @@
   },
   "devDependencies": {
     "typescript": "^4.0.3",
-    "vue": "^3.0.0"
+    "vue": "^2.6.12"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^2.6.0"
   }
 }
