@@ -108,6 +108,7 @@ function initVueRouterGuard(
 }
 
 export type VueGtmPlugin = Plugin;
+export { VueGtmUseOptions } from "./types";
 
 const _default: VueGtmPlugin = { install };
 
