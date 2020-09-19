@@ -1,7 +1,7 @@
 import { App, nextTick, Plugin } from "vue";
 import pluginConfig from "./config";
 import GtmPlugin from "./GtmPlugin";
-import { VueGtmUseOptions } from "./types";
+import { VueGtmObject, VueGtmUseOptions } from "./types";
 import { loadScript } from "./utils";
 
 const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
@@ -105,6 +105,12 @@ function initVueRouterGuard(
   );
 
   return ignoredViews;
+}
+
+declare module "vue" {
+  export interface ComponentCustomProperties {
+    $gtm: VueGtmObject;
+  }
 }
 
 export type VueGtmPlugin = Plugin;
