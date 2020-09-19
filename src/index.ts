@@ -1,7 +1,7 @@
-import _Vue, { PluginObject } from "vue";
+import { App, nextTick, Plugin } from "vue";
 import pluginConfig from "./config";
 import GtmPlugin from "./GtmPlugin";
-import { VueGtmObject, VueGtmUseOptions } from "./types";
+import { VueGtmUseOptions } from "./types";
 import { loadScript } from "./utils";
 
 const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
@@ -12,7 +12,7 @@ const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
  * @param Vue
  * @param initConf
  */
-function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }) {
+function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }) {
   if (Array.isArray(initConf.id)) {
     for (const id of initConf.id) {
       if (!GTM_ID_PATTERN.test(id)) {
@@ -38,8 +38,7 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }) {
   }
 
   // Add to vue prototype and also from globals
-  // @ts-expect-error
-  Vue.prototype.$gtm = Vue.gtm = new GtmPlugin(pluginConfig.id);
+  Vue.config.globalProperties.$gtm = new GtmPlugin(pluginConfig.id);
 
   // Load GTM script when enabled
   if (pluginConfig.enabled && pluginConfig.loadScript) {
@@ -51,6 +50,8 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }) {
       loadScript(initConf.id, initConf);
     }
   }
+
+  Vue.provide("gtm", initConf);
 }
 
 /**
@@ -64,7 +65,7 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }) {
  * @returns The ignored routes names formalized.
  */
 function initVueRouterGuard(
-  Vue: typeof _Vue,
+  Vue: App,
   { vueRouter, ignoredViews, trackOnNextTick }: VueGtmUseOptions
 ): string[] | undefined {
   // Flatten routes name
@@ -94,11 +95,11 @@ function initVueRouterGuard(
         : to.fullPath;
 
       if (trackOnNextTick) {
-        Vue.nextTick(() => {
-          Vue.gtm.trackView(name, fullUrl);
+        nextTick(() => {
+          Vue.config.globalProperties.$gtm.trackView(name, fullUrl);
         });
       } else {
-        Vue.gtm.trackView(name, fullUrl);
+        Vue.config.globalProperties.$gtm.trackView(name, fullUrl);
       }
     }
   );
@@ -106,16 +107,7 @@ function initVueRouterGuard(
   return ignoredViews;
 }
 
-declare module "vue/types/vue" {
-  export interface Vue {
-    $gtm: VueGtmObject;
-  }
-  export interface VueConstructor<V extends Vue = Vue> {
-    gtm: VueGtmObject;
-  }
-}
-
-export type VueGtmPlugin = PluginObject<VueGtmUseOptions>;
+export type VueGtmPlugin = Plugin;
 
 const _default: VueGtmPlugin = { install };
 

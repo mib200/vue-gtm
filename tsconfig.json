@@ -3,7 +3,7 @@
     "target": "ES5",
     "module": "CommonJS",
     "inlineSourceMap": false,
-    "lib": ["ES2015", "DOM"],
+    "lib": ["ES2020", "DOM"],
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,

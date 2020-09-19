@@ -1,10 +1,19 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/2.4.0...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.0.0...master)
 
-# 2.4.0
+# 3.0.0 (_currently in beta_)
 
-[diff](https://github.com/mib200/vue-gtm/compare/2.3.4...2.4.0)
+[diff](https://github.com/mib200/vue-gtm/compare/2.3.4...3.0.0)
+
+## BREAKING CHANGE
+
+- There are incompatibilities in the TypeScript definitions of Vue 2.x and 3.x.  
+  That's why we're going to offer **two** releases for an indefinite period of time
+  - `3.0.0` with a npm tag `latest`: Vue 3.x
+  - `3.0.0-vue2` with a npm tag `vue2`: Vue 2.x
+
+## Other Changes
 
 - Throw error on invalid `GTM-ID`
 - Project rewritten to TypeScript
