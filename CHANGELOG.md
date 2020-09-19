@@ -2,7 +2,7 @@
 
 [diff](https://github.com/mib200/vue-gtm/compare/3.0.0...master)
 
-# 3.0.0 (_currently in beta_)
+# 3.0.0 (_currently in development_)
 
 [diff](https://github.com/mib200/vue-gtm/compare/2.3.4...3.0.0)
 
