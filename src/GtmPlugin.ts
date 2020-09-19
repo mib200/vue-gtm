@@ -7,7 +7,7 @@ const inBrowser: boolean = typeof window !== "undefined";
  * Plugin main class
  */
 export default class AnalyticsPlugin {
-  constructor(public readonly id: string) {}
+  constructor(public readonly id: string | string[]) {}
 
   enabled() {
     return pluginConfig.enabled;
@@ -17,10 +17,19 @@ export default class AnalyticsPlugin {
     pluginConfig.enabled = val;
 
     if (inBrowser && !!val && !hasScript() && pluginConfig.loadScript) {
-      loadScript(this.id, {
-        defer: pluginConfig.defer,
-        queryParams: pluginConfig.queryParams,
-      });
+      if (Array.isArray(this.id)) {
+        this.id.forEach((id) => {
+          loadScript(id, {
+            defer: pluginConfig.defer,
+            queryParams: pluginConfig.queryParams,
+          });
+        });
+      } else {
+        loadScript(this.id, {
+          defer: pluginConfig.defer,
+          queryParams: pluginConfig.queryParams,
+        });
+      }
     }
   }
 
