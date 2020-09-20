@@ -107,7 +107,7 @@ function initVueRouterGuard(
   return ignoredViews;
 }
 
-declare module "vue" {
+declare module "@vue/runtime-core" {
   export interface ComponentCustomProperties {
     $gtm: VueGtmObject;
   }
