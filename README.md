@@ -25,9 +25,9 @@
   <a href="https://www.npmjs.com/package/vue-gtm">
     <img alt="downloads" src="https://img.shields.io/npm/dt/vue-gtm.svg?style=flat-square">
   </a>
-  <!-- <a href="#badge">
+  <a href="#badge">
     <img alt="code style: Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
-  </a> -->
+  </a>
   <a href="https://github.com/mib200/vue-gtm/actions?query=branch%3Amaster+workflow%3ACI">
     <img alt="Build Status" src="https://github.com/mib200/vue-gtm/workflows/CI/badge.svg?branch=master">
   </a>
