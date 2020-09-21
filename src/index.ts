@@ -73,32 +73,35 @@ function initVueRouterGuard(
   }
 
   vueRouter.afterEach(
-    (to: { name?: string; meta: { gtm: string }; fullPath: string }) => {
+    (to: {
+      name?: string;
+      meta: Partial<{
+        gtm: string;
+        gtmAdditionalEventData: Record<string, any>;
+      }>;
+      fullPath: string;
+    }) => {
       // Ignore some routes
-      if (
-        !to.name ||
-        (ignoredViews && ignoredViews.indexOf(to.name.toLowerCase()) !== -1)
-      ) {
+      if (!to.name || (ignoredViews && ignoredViews.indexOf(to.name.toLowerCase()) !== -1)) {
         return;
       }
 
       // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
       const name: string = to.meta.gtm || to.name;
+      const additionalEventData: Record<string, any> = to.meta.gtmAdditionalEventData ?? {};
       const baseUrl: string = vueRouter.options.base || "";
       let fullUrl: string = baseUrl;
       if (!fullUrl.endsWith("/")) {
         fullUrl += "/";
       }
-      fullUrl += to.fullPath.startsWith("/")
-        ? to.fullPath.substr(1)
-        : to.fullPath;
+      fullUrl += to.fullPath.startsWith("/") ? to.fullPath.substr(1) : to.fullPath;
 
       if (trackOnNextTick) {
         nextTick(() => {
-          Vue.config.globalProperties.$gtm.trackView(name, fullUrl);
+          Vue.config.globalProperties.$gtm.trackView(name, fullUrl, additionalEventData);
         });
       } else {
-        Vue.config.globalProperties.$gtm.trackView(name, fullUrl);
+        Vue.config.globalProperties.$gtm.trackView(name, fullUrl, additionalEventData);
       }
     }
   );

@@ -74,12 +74,13 @@ export default class VueGtmPlugin {
     return false;
   }
 
-  trackView(screenName: string, path: string): void {
+  trackView(screenName: string, path: string, additionalEventData: Record<string, any> = {}): void {
     logDebug("Dispatching TrackView", { screenName, path });
 
     if (inBrowser && pluginConfig.enabled) {
       let dataLayer = (window.dataLayer = window.dataLayer || []);
       dataLayer.push({
+        ...additionalEventData,
         event: "content-view",
         "content-name": path,
         "content-view-name": screenName,

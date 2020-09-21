@@ -16,6 +16,7 @@
 
 ## Other Changes
 
+- Possibility to track additional event data
 - Throw error on invalid `GTM-ID`
 - Fix handling of multiple `GTM-ID`s
 - Project rewritten to TypeScript
