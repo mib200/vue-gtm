@@ -17,6 +17,7 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/mib200/vue-gtm",
   "scripts": {
+    "clean": "rm -Rf dist yarn.lock node_modules",
     "build": "tsc",
     "format": "prettier --write ."
   },
