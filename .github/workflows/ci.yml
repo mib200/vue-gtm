@@ -27,22 +27,25 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Versions
-        run: npm version
+        run: yarn versions
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
-      # - name: Check outdated dependencies
-      #   run: npm outdated
+      - name: Check outdated dependencies
+        run: yarn outdated
 
       # - name: Lint
-      #   run: npm run lint
+      #   run: yarn lint
 
       # - name: Test
-      #   run: npm run jest --ci --silent
+      #   run: yarn jest --ci --silent
 
       - name: Audit dependencies
-        run: npm audit
+        run: yarn audit --groups dependencies
+
+      - name: Audit peerDependencies
+        run: yarn audit --groups peerDependencies
 
       - name: Build
-        run: npm run build
+        run: yarn build
