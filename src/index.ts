@@ -1,7 +1,6 @@
 import { App, nextTick, Plugin } from "vue";
-import pluginConfig from "./config";
-import GtmPlugin from "./GtmPlugin";
-import { VueGtmObject, VueGtmUseOptions } from "./types";
+import pluginConfig, { VueGtmUseOptions } from "./config";
+import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
 const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
@@ -109,12 +108,12 @@ function initVueRouterGuard(
 
 declare module "@vue/runtime-core" {
   export interface ComponentCustomProperties {
-    $gtm: VueGtmObject;
+    $gtm: VueGtmPlugin;
   }
 }
 
 export type VueGtmPlugin = Plugin;
-export { VueGtmUseOptions } from "./types";
+export { VueGtmUseOptions } from "./config";
 
 const _default: VueGtmPlugin = { install };
 

@@ -1,6 +1,5 @@
 import "url-search-params-polyfill";
-import pluginConfig from "./config";
-import { VueGtmUseOptions } from "./types";
+import pluginConfig, { VueGtmUseOptions } from "./config";
 
 /**
  * Console log depending on config debug mode
