@@ -73,7 +73,7 @@ const vueGtmOptions: VueGtmUseOptions = {
   debug: true, // Whether or not display console logs debugs (optional)
   loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
-  ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
+  ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
   trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
 }
 
@@ -100,7 +100,7 @@ Vue.use(VueGtm, {
   debug: true, // Whether or not display console logs debugs (optional)
   loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
-  ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
+  ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
   trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
 });
 ```

@@ -46,7 +46,7 @@ export interface VueGtmUseOptions {
    */
   vueRouter?: any;
   /**
-   * If router, you can exclude some routes name (case insensitive)
+   * Don't trigger events for specified router names (case insensitive)
    */
   ignoredViews?: string[];
   /**
