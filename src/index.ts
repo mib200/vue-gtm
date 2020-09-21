@@ -3,7 +3,7 @@ import pluginConfig, { VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
-const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
+const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
 
 /**
  * Installation procedure
