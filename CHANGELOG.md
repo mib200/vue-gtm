@@ -12,9 +12,11 @@
   That's why we're going to offer **two** releases for an indefinite period of time
   - `3.0.0` with a npm tag `latest`: Vue 3.x
   - `3.0.0-vue2` with a npm tag `vue2`: Vue 2.x
+- The class name of the `$gtm` instance changed from `AnalyticsPlugin` to `VueGtmPlugin`
 
 ## Other Changes
 
+- Possibility to track additional event data
 - Throw error on invalid `GTM-ID`
 - Fix handling of multiple `GTM-ID`s
 - Project rewritten to TypeScript

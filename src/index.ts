@@ -1,7 +1,6 @@
 import _Vue, { PluginObject } from "vue";
-import pluginConfig from "./config";
-import GtmPlugin from "./GtmPlugin";
-import { VueGtmObject, VueGtmUseOptions } from "./types";
+import pluginConfig, { VueGtmUseOptions } from "./config";
+import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
 const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
@@ -12,7 +11,7 @@ const GTM_ID_PATTERN: RegExp = /^GTM\-[A-Z]+$/;
  * @param Vue
  * @param initConf
  */
-function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }) {
+function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): void {
   if (Array.isArray(initConf.id)) {
     for (const id of initConf.id) {
       if (!GTM_ID_PATTERN.test(id)) {
@@ -73,32 +72,35 @@ function initVueRouterGuard(
   }
 
   vueRouter.afterEach(
-    (to: { name?: string; meta: { gtm: string }; fullPath: string }) => {
+    (to: {
+      name?: string;
+      meta: Partial<{
+        gtm: string;
+        gtmAdditionalEventData: Record<string, any>;
+      }>;
+      fullPath: string;
+    }) => {
       // Ignore some routes
-      if (
-        !to.name ||
-        (ignoredViews && ignoredViews.indexOf(to.name.toLowerCase()) !== -1)
-      ) {
+      if (!to.name || (ignoredViews && ignoredViews.indexOf(to.name.toLowerCase()) !== -1)) {
         return;
       }
 
       // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
       const name: string = to.meta.gtm || to.name;
+      const additionalEventData: Record<string, any> = to.meta.gtmAdditionalEventData ?? {};
       const baseUrl: string = vueRouter.options.base || "";
       let fullUrl: string = baseUrl;
       if (!fullUrl.endsWith("/")) {
         fullUrl += "/";
       }
-      fullUrl += to.fullPath.startsWith("/")
-        ? to.fullPath.substr(1)
-        : to.fullPath;
+      fullUrl += to.fullPath.startsWith("/") ? to.fullPath.substr(1) : to.fullPath;
 
       if (trackOnNextTick) {
         Vue.nextTick(() => {
-          Vue.gtm.trackView(name, fullUrl);
+          Vue.gtm.trackView(name, fullUrl, additionalEventData);
         });
       } else {
-        Vue.gtm.trackView(name, fullUrl);
+        Vue.gtm.trackView(name, fullUrl, additionalEventData);
       }
     }
   );
@@ -108,15 +110,15 @@ function initVueRouterGuard(
 
 declare module "vue/types/vue" {
   export interface Vue {
-    $gtm: VueGtmObject;
+    $gtm: VueGtmPlugin;
   }
   export interface VueConstructor<V extends Vue = Vue> {
-    gtm: VueGtmObject;
+    gtm: VueGtmPlugin;
   }
 }
 
 export type VueGtmPlugin = PluginObject<VueGtmUseOptions>;
-export { VueGtmUseOptions } from "./types";
+export { VueGtmUseOptions } from "./config";
 
 const _default: VueGtmPlugin = { install };
 

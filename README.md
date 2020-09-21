@@ -25,9 +25,9 @@
   <a href="https://www.npmjs.com/package/vue-gtm">
     <img alt="downloads" src="https://img.shields.io/npm/dt/vue-gtm.svg?style=flat-square">
   </a>
-  <!-- <a href="#badge">
+  <a href="#badge">
     <img alt="code style: Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
-  </a> -->
+  </a>
   <a href="https://github.com/mib200/vue-gtm/actions?query=branch%3Amaster+workflow%3ACI">
     <img alt="Build Status" src="https://github.com/mib200/vue-gtm/workflows/CI/badge.svg?branch=master">
   </a>
@@ -73,7 +73,7 @@ const vueGtmOptions: VueGtmUseOptions = {
   debug: true, // Whether or not display console logs debugs (optional)
   loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
-  ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
+  ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
   trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
 }
 
@@ -100,7 +100,7 @@ Vue.use(VueGtm, {
   debug: true, // Whether or not display console logs debugs (optional)
   loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
-  ignoredViews: ['homepage'], // If router, you can exclude some routes name (case insensitive) (optional)
+  ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
   trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
 });
 ```
