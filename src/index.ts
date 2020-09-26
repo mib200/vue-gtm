@@ -109,6 +109,10 @@ function initVueRouterGuard(
   return ignoredViews;
 }
 
+export function createGtm(options: VueGtmUseOptions) {
+  return { install: (app: App) => install(app, options) };
+}
+
 declare module "@vue/runtime-core" {
   export interface ComponentCustomProperties {
     $gtm: VueGtmPlugin;
