@@ -1,6 +1,6 @@
 {
   "name": "vue-gtm",
-  "version": "3.0.0-alpha.7",
+  "version": "3.0.0",
   "description": "Google Tag Manager implementation in Vue application",
   "main": "dist/index.js",
   "author": {
@@ -45,7 +45,6 @@
     "vue js gtm",
     "vuejs",
     "tracking",
-    "Vue2",
     "vue",
     "google"
   ],
