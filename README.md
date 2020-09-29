@@ -54,14 +54,14 @@ Here is an example configuration:
 
 ```js
 import { createApp } from 'vue';
-import VueGtm, { VueGtmUseOptions } from 'vue-gtm';
-import VueRouter from 'vue-router';
-const router = new VueRouter({ routes, mode, linkActiveClass });
+import { createGtm } from 'vue-gtm';
+import router from "./router";
 
 const app = createApp(App);
 
-// Use a variable to get JSDoc support as well as type checking
-const vueGtmOptions: VueGtmUseOptions = {
+app.use(router);
+
+app.use(createGtm({
   id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
   queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
     gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
@@ -75,9 +75,7 @@ const vueGtmOptions: VueGtmUseOptions = {
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
   ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
   trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
-}
-
-app.use(VueGtm, vueGtmOptions);
+}));
 ```
 
 <details>

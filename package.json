@@ -1,6 +1,6 @@
 {
   "name": "vue-gtm",
-  "version": "3.0.0-alpha.5-vue2",
+  "version": "3.0.0-vue2",
   "description": "Google Tag Manager implementation in Vue application",
   "main": "dist/index.js",
   "author": {
@@ -19,7 +19,8 @@
   "scripts": {
     "clean": "rm -Rf dist yarn.lock node_modules",
     "build": "tsc",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "yarn clean && yarn install --cache-folder .yarn && yarn build"
   },
   "repository": {
     "type": "git",
@@ -44,7 +45,6 @@
     "vue js gtm",
     "vuejs",
     "tracking",
-    "Vue2",
     "vue",
     "google"
   ],
