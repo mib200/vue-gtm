@@ -37,6 +37,9 @@ This plugin will help you in your common GTM tasks.
 
 **Note: If you are looking to track all Vuex mutations, you can use [Vuex GTM plugin](https://gist.github.com/matt-e-king/ebdb39088c50b96bbbbe77c5bc8abb2b)**
 
+> If you want Vue 2 compatibility, please stick to the exact version ["3.x.x-vue2"](https://github.com/mib200/vue-gtm/issues/98#issuecomment-700806816).  
+> `"~3.x.x-vue2"` or `"^3.x.x-vue2"` will fallback to npm's `latest` tag and will not work with Vue 2 :warning:.
+
 # Requirements
 
 - **Vue.js.** >= 2.0.0
