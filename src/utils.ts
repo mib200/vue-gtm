@@ -18,7 +18,10 @@ export function logDebug(message: string, args: Record<string, any>): void {
  * @param id GTM ID
  * @param params query params object
  */
-export function loadScript(id: string, config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "queryParams"> = {}): void {
+export function loadScript(
+  id: string,
+  config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "queryParams"> = {}
+): void {
   const win = window,
     doc = document,
     script = doc.createElement("script"),
