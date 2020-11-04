@@ -39,12 +39,14 @@ export default class VueGtmPlugin {
         this.id.forEach((id) => {
           loadScript(id, {
             defer: pluginConfig.defer,
+            compatibility: pluginConfig.compatibility,
             queryParams: pluginConfig.queryParams,
           });
         });
       } else {
         loadScript(this.id, {
           defer: pluginConfig.defer,
+          compatibility: pluginConfig.compatibility,
           queryParams: pluginConfig.queryParams,
         });
       }
