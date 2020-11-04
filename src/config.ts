@@ -12,11 +12,17 @@ export interface VueGtmUseOptions {
     gtm_cookies_win: string;
   };
   /**
-   * Script can be set to `defer` to increase page-load-time at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible)
+   * Script can be set to `defer` to speed up page load at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible). Defaults to false, so the script is loaded `async` by default
    *
    * @default false
    */
   defer?: boolean;
+  /**
+   * Will add `async` and `defer` to the script tag to not block requests for old browsers that do not support `async`
+   *
+   * @default false
+   */
+  compatibility?: boolean;
   /**
    * Plugin can be disabled by setting this to `false` for Ex: `enabled: !!GDPR_Cookie`
    *
@@ -53,6 +59,7 @@ const config: VueGtmUseOptions = {
   queryParams: undefined,
   loadScript: true,
   defer: false,
+  compatibility: false,
 };
 
 export default config;

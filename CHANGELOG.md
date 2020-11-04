@@ -1,6 +1,14 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.0.0...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.1.0...master)
+
+# 3.1.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.0.0...3.1.0)
+
+- Add `compatibility` for `defer` option for old browsers ([#101])
+
+[#101]: https://github.com/mib200/vue-gtm/pull/101
 
 # 3.0.0
 

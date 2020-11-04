@@ -30,6 +30,7 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): voi
   pluginConfig.enabled = initConf.enabled;
   pluginConfig.loadScript = initConf.loadScript;
   pluginConfig.defer = initConf.defer;
+  pluginConfig.compatibility = initConf.compatibility;
 
   // Handle vue-router if defined
   if (initConf.vueRouter) {
