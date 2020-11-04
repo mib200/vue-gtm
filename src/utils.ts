@@ -18,7 +18,7 @@ export function logDebug(message: string, args: Record<string, any>): void {
  * @param id GTM ID
  * @param params query params object
  */
-export function loadScript(id: string, config: Pick<VueGtmUseOptions, "defer" | "queryParams" | "compability"> = {}): void {
+export function loadScript(id: string, config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "queryParams"> = {}): void {
   const win = window,
     doc = document,
     script = doc.createElement("script"),
@@ -36,7 +36,7 @@ export function loadScript(id: string, config: Pick<VueGtmUseOptions, "defer" | 
   }
 
   script.async = !config.defer;
-  script.defer = Boolean(config.defer || config.compability);
+  script.defer = Boolean(config.defer || config.compatibility);
 
   const queryString = new URLSearchParams({
     id,

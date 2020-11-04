@@ -22,7 +22,7 @@ export interface VueGtmUseOptions {
    *
    * @default false
    */
-  compability?: boolean;
+  compatibility?: boolean;
   /**
    * Plugin can be disabled by setting this to `false` for Ex: `enabled: !!GDPR_Cookie`
    *
@@ -59,7 +59,7 @@ const config: VueGtmUseOptions = {
   queryParams: undefined,
   loadScript: true,
   defer: false,
-  compability: false,
+  compatibility: false,
 };
 
 export default config;
