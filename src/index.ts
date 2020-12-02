@@ -1,5 +1,5 @@
 import _Vue, { PluginObject } from "vue";
-import pluginConfig, { VueGtmUseOptions } from "./config";
+import pluginConfig, { VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
@@ -31,6 +31,10 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): voi
   pluginConfig.loadScript = initConf.loadScript;
   pluginConfig.defer = initConf.defer;
   pluginConfig.compatibility = initConf.compatibility;
+  pluginConfig.queryParams = {
+    ...pluginConfig.queryParams,
+    ...initConf.queryParams,
+  } as VueGtmQueryParams;
 
   // Handle vue-router if defined
   if (initConf.vueRouter) {
