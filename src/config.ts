@@ -1,3 +1,9 @@
+export interface VueGtmQueryParams {
+  gtm_auth: string;
+  gtm_preview: string;
+  gtm_cookies_win: string;
+}
+
 export interface VueGtmUseOptions {
   /**
    * Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
@@ -6,11 +12,7 @@ export interface VueGtmUseOptions {
   /**
    * Add url query string when load gtm.js with GTM ID
    */
-  queryParams?: {
-    gtm_auth: string;
-    gtm_preview: string;
-    gtm_cookies_win: string;
-  };
+  queryParams?: VueGtmQueryParams;
   /**
    * Script can be set to `defer` to speed up page load at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible). Defaults to false, so the script is loaded `async` by default
    *
