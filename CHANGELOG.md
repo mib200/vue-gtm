@@ -1,6 +1,14 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.1.0...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.1.1...master)
+
+# 3.1.1
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.1.0...3.1.1)
+
+- Load `queryParams` also when using the `enable` function ([#102])
+
+[#102]: https://github.com/mib200/vue-gtm/issues/102
 
 # 3.1.0
 
