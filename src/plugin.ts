@@ -82,10 +82,10 @@ export default class VueGtmPlugin {
     if (inBrowser && pluginConfig.enabled) {
       let dataLayer = (window.dataLayer = window.dataLayer || []);
       dataLayer.push({
-        ...additionalEventData,
         event: "content-view",
         "content-name": path,
         "content-view-name": screenName,
+        ...additionalEventData,
       });
     }
   }
