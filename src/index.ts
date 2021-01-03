@@ -42,7 +42,9 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   }
 
   // Add to vue prototype and also from globals
-  Vue.config.globalProperties.$gtm = new GtmPlugin(pluginConfig.id);
+  const gtmInstance = new GtmPlugin(pluginConfig.id);
+  Vue.config.globalProperties.$gtm = gtmInstance;
+  Vue.provide("gtmInstance", gtmInstance);
 
   // Load GTM script when enabled
   if (pluginConfig.enabled && pluginConfig.loadScript) {
