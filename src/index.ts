@@ -4,7 +4,7 @@ import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
 const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
-
+export const GTM_INJECT_NAME = 'gtmPlugin';
 /**
  * Installation procedure
  *
@@ -44,7 +44,7 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   // Add to vue prototype and also from globals
   const gtmInstance = new GtmPlugin(pluginConfig.id);
   Vue.config.globalProperties.$gtm = gtmInstance;
-  Vue.provide("gtmInstance", gtmInstance);
+  Vue.provide(GTM_INJECT_NAME, gtmInstance);
 
   // Load GTM script when enabled
   if (pluginConfig.enabled && pluginConfig.loadScript) {

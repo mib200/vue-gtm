@@ -185,6 +185,27 @@ const myRoute = {
 
 > This will use `MyCustomValue` as the view name.
 
+## Using with composition API
+
+In order to use this plugin with composition api (inside your `setup` method), you can just call the custom composable `useGtm`.
+
+Example:
+
+```js
+import {useGtm} from 'vue-gtm';
+
+const gtm = useGtm();
+
+gtm.trackEvent({
+  event: null,
+  category: "Calculator",
+  action: "click",
+  label: "Home page SIP calculator",
+  value: 5000,
+  noninteraction: false,
+});
+```
+
 ## Methods
 
 ### Enable plugin

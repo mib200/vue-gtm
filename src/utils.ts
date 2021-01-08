@@ -1,5 +1,7 @@
 import "url-search-params-polyfill";
+import { inject } from 'vue';
 import pluginConfig, { VueGtmUseOptions } from "./config";
+import { GTM_INJECT_NAME } from "./index";
 
 /**
  * Console log depending on config debug mode
@@ -56,4 +58,11 @@ export function hasScript(): boolean {
   return Array.from(document.getElementsByTagName("script")).some((script) =>
     script.src.includes("googletagmanager.com/gtm.js")
   );
+}
+
+/**
+ * Returns gtm plugin to be used via composition api inside setup method
+ */
+export function useGtm(): any {
+  return inject(GTM_INJECT_NAME);
 }
