@@ -1,4 +1,4 @@
-import { App, nextTick, Plugin } from "vue";
+import { App, inject, nextTick, Plugin } from "vue";
 import pluginConfig, { VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
@@ -132,3 +132,11 @@ export { VueGtmUseOptions } from "./config";
 const _default: VueGtmPlugin = { install };
 
 export default _default;
+
+/**
+ * Returns gtm plugin to be used via composition api inside setup method
+ */
+export function useGtm(): GtmPlugin {
+  // @ts-ignore
+  return inject(GTM_INJECT_NAME);
+}

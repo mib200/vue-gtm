@@ -59,10 +59,3 @@ export function hasScript(): boolean {
     script.src.includes("googletagmanager.com/gtm.js")
   );
 }
-
-/**
- * Returns gtm plugin to be used via composition api inside setup method
- */
-export function useGtm(): any {
-  return inject(GTM_INJECT_NAME);
-}
