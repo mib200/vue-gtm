@@ -1,7 +1,5 @@
 import "url-search-params-polyfill";
-import { inject } from 'vue';
 import pluginConfig, { VueGtmUseOptions } from "./config";
-import { GTM_INJECT_NAME } from "./index";
 
 /**
  * Console log depending on config debug mode

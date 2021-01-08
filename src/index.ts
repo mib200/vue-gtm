@@ -5,7 +5,6 @@ import { loadScript } from "./utils";
 
 let gtmPlugin: GtmPlugin;
 const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
-export const GTM_INJECT_NAME = 'gtmPlugin';
 /**
  * Installation procedure
  *
