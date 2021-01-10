@@ -187,23 +187,41 @@ const myRoute = {
 
 ## Using with composition API
 
-In order to use this plugin with composition api (inside your `setup` method), you can just call the custom composable `useGtm`.
+In order to use this plugin with composition API (inside your `setup` method), you can just call the custom composable `useGtm`.
 
 Example:
 
 ```js
-import {useGtm} from 'vue-gtm';
+<template>
+  <button @click="triggerEvent">Trigger event!</button>
+</template>
 
-const gtm = useGtm();
+<script>
+import { useGtm } from 'vue-gtm';
 
-gtm.trackEvent({
-  event: null,
-  category: "Calculator",
-  action: "click",
-  label: "Home page SIP calculator",
-  value: 5000,
-  noninteraction: false,
-});
+export default {
+  name: "MyCustomComponent",
+  
+  setup() {
+    const gtm = useGtm();
+    
+    function triggerEvent() {
+      gtm.trackEvent({
+          event: 'event name',
+          category: "category",
+          action: "click",
+          label: "My custom component trigger",
+          value: 5000,
+          noninteraction: false,
+      });
+    }
+    
+    return {
+      triggerEvent
+    };
+  }
+}
+</script>
 ```
 
 ## Methods
