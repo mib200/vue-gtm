@@ -3,7 +3,7 @@ import pluginConfig, { VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
-let gtmPlugin: GtmPlugin;
+let gtmPlugin: GtmPlugin | undefined;
 const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
 /**
  * Installation procedure
@@ -135,6 +135,6 @@ export default _default;
 /**
  * Returns gtm plugin to be used via composition api inside setup method
  */
-export function useGtm(): GtmPlugin {
+export function useGtm(): GtmPlugin | undefined {
   return gtmPlugin;
 }
