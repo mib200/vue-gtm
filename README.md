@@ -185,6 +185,45 @@ const myRoute = {
 
 > This will use `MyCustomValue` as the view name.
 
+## Using with composition API
+
+In order to use this plugin with composition API (inside your `setup` method), you can just call the custom composable `useGtm`.
+
+Example:
+
+```js
+<template>
+  <button @click="triggerEvent">Trigger event!</button>
+</template>
+
+<script>
+import { useGtm } from 'vue-gtm';
+
+export default {
+  name: "MyCustomComponent",
+  
+  setup() {
+    const gtm = useGtm();
+    
+    function triggerEvent() {
+      gtm.trackEvent({
+          event: 'event name',
+          category: "category",
+          action: "click",
+          label: "My custom component trigger",
+          value: 5000,
+          noninteraction: false,
+      });
+    }
+    
+    return {
+      triggerEvent
+    };
+  }
+}
+</script>
+```
+
 ## Methods
 
 ### Enable plugin

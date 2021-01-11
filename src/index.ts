@@ -3,8 +3,8 @@ import pluginConfig, { VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
+let gtmPlugin: GtmPlugin | undefined;
 const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
-
 /**
  * Installation procedure
  *
@@ -42,7 +42,8 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   }
 
   // Add to vue prototype and also from globals
-  Vue.config.globalProperties.$gtm = new GtmPlugin(pluginConfig.id);
+  gtmPlugin = new GtmPlugin(pluginConfig.id);
+  Vue.config.globalProperties.$gtm = gtmPlugin;
 
   // Load GTM script when enabled
   if (pluginConfig.enabled && pluginConfig.loadScript) {
@@ -130,3 +131,10 @@ export { VueGtmUseOptions } from "./config";
 const _default: VueGtmPlugin = { install };
 
 export default _default;
+
+/**
+ * Returns gtm plugin to be used via composition api inside setup method
+ */
+export function useGtm(): GtmPlugin | undefined {
+  return gtmPlugin;
+}
