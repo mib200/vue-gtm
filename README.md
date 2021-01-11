@@ -201,10 +201,10 @@ import { useGtm } from 'vue-gtm';
 
 export default {
   name: "MyCustomComponent",
-  
+
   setup() {
     const gtm = useGtm();
-    
+
     function triggerEvent() {
       gtm.trackEvent({
           event: 'event name',
@@ -215,7 +215,7 @@ export default {
           noninteraction: false,
       });
     }
-    
+
     return {
       triggerEvent
     };
