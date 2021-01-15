@@ -121,7 +121,7 @@ export function createGtm(options: VueGtmUseOptions) {
 
 declare module "@vue/runtime-core" {
   export interface ComponentCustomProperties {
-    $gtm: VueGtmPlugin;
+    $gtm: GtmPlugin;
   }
 }
 
