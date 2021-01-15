@@ -1,6 +1,14 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.2.0...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.2.1...master)
+
+# 3.2.1
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.2.0...3.2.1)
+
+- Fix $gtm typing ([#111])
+
+[#111]: https://github.com/mib200/vue-gtm/issues/111
 
 # 3.2.0
 
