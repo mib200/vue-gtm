@@ -8,7 +8,8 @@
     "rootDir": "src",
     "strict": true,
     "downlevelIteration": true,
-    "declaration": true
+    "declaration": true,
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

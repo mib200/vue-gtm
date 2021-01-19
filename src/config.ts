@@ -42,7 +42,10 @@ export interface VueGtmUseOptions {
   /**
    * Pass the router instance to automatically sync with router
    */
-  vueRouter?: any;
+  vueRouter?: {
+    readonly options: any;
+    afterEach(guard: (to: any, from: any) => any): () => void;
+  };
   /**
    * Don't trigger events for specified router names (case insensitive)
    */

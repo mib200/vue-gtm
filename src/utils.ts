@@ -22,14 +22,12 @@ export function loadScript(
   id: string,
   config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "queryParams"> = {}
 ): void {
-  const win = window,
-    doc = document,
-    script = doc.createElement("script"),
-    dl = "dataLayer";
+  const doc: Document = document;
+  const script: HTMLScriptElement = doc.createElement("script");
 
-  win[dl] = win[dl] || [];
+  window.dataLayer = window.dataLayer ?? [];
 
-  win[dl]!.push({
+  window.dataLayer?.push({
     event: "gtm.js",
     "gtm.start": new Date().getTime(),
   });
@@ -39,11 +37,12 @@ export function loadScript(
   }
 
   script.async = !config.defer;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   script.defer = Boolean(config.defer || config.compatibility);
 
-  const queryString = new URLSearchParams({
+  const queryString: URLSearchParams = new URLSearchParams({
     id,
-    ...(config.queryParams || {}),
+    ...(config.queryParams ?? {}),
   });
   script.src = `https://www.googletagmanager.com/gtm.js?${queryString}`;
   doc.body.appendChild(script);

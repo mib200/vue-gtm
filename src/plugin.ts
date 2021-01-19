@@ -5,7 +5,7 @@ const inBrowser: boolean = typeof window !== "undefined";
 
 export interface VueGtmTrackEventParams {
   [key: string]: any;
-  event?: any;
+  event?: string;
   category?: any;
   action?: any;
   label?: any;
@@ -69,9 +69,9 @@ export default class VueGtmPlugin {
     pluginConfig.debug = val;
   }
 
-  dataLayer(): Array<Record<string, any>> | false {
+  dataLayer(): DataLayerObject[] | false {
     if (inBrowser && pluginConfig.enabled) {
-      return (window.dataLayer = window.dataLayer || []);
+      return (window.dataLayer = window.dataLayer ?? []);
     }
     return false;
   }
@@ -80,7 +80,7 @@ export default class VueGtmPlugin {
     logDebug("Dispatching TrackView", { screenName, path });
 
     if (inBrowser && pluginConfig.enabled) {
-      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
         ...additionalEventData,
         event: "content-view",
@@ -91,7 +91,7 @@ export default class VueGtmPlugin {
   }
 
   trackEvent({
-    event = null,
+    event,
     category = null,
     action = null,
     label = null,
@@ -109,9 +109,9 @@ export default class VueGtmPlugin {
     });
 
     if (inBrowser && pluginConfig.enabled) {
-      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
-        event: event || "interaction",
+        event: event ?? "interaction",
         target: category,
         action: action,
         "target-properties": label,
