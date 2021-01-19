@@ -20,6 +20,8 @@
     "clean": "rm -Rf dist yarn.lock node_modules",
     "build": "tsc",
     "format": "prettier --write .",
+    "lint": "yarn lint:src",
+    "lint:src": "eslint --ext .ts src",
     "prepublishOnly": "yarn clean && yarn install --cache-folder .yarn && yarn build"
   },
   "repository": {
@@ -57,7 +59,13 @@
     "url-search-params-polyfill": "^8.1.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "~4.14.0",
+    "@typescript-eslint/parser": "~4.14.0",
+    "eslint": "~7.18.0",
+    "eslint-config-prettier": "~7.2.0",
+    "eslint-plugin-prettier": "~3.3.1",
     "prettier": "2.2.1",
+    "prettier-plugin-organize-imports": "~1.1.1",
     "typescript": "^4.1.3",
     "vue": "^3.0.0"
   },

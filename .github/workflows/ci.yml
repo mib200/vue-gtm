@@ -39,8 +39,8 @@ jobs:
       - name: Check outdated dependencies
         run: yarn outdated
 
-      # - name: Lint
-      #   run: yarn lint
+      - name: Lint
+        run: yarn lint
 
       # - name: Test
       #   run: yarn jest --ci --silent
