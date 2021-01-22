@@ -65,7 +65,7 @@ const app = createApp(App);
 app.use(router);
 
 app.use(createGtm({
-  id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
+  id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'] or array of objects [{id: 'GTM-xxxxxx', queryPararms: { gtm_auth: 'abc123', gtm_preview: 'env-4', gtm_cookies_win: 'x'}}, {id: 'GTM-yyyyyy', queryParams: {gtm_auth: 'abc234', gtm_preview: 'env-5', gtm_cookies_win: 'x'}}], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
   queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
     gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
     gtm_preview:'env-4',
@@ -91,7 +91,7 @@ import VueRouter from 'vue-router';
 const router = new VueRouter({ routes, mode, linkActiveClass });
 
 Vue.use(VueGtm, {
-  id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
+  id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'] or array of objects [{id: 'GTM-xxxxxx', queryPararms: { gtm_auth: 'abc123', gtm_preview: 'env-4', gtm_cookies_win: 'x'}}, {id: 'GTM-yyyyyy', queryParams: {gtm_auth: 'abc234', gtm_preview: 'env-5', gtm_cookies_win: 'x'}}], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
   queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
     gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
     gtm_preview:'env-4',
