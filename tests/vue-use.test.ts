@@ -36,6 +36,41 @@ describe("Vue.use", () => {
     expect(document.scripts.item(0)?.src).toBe("https://www.googletagmanager.com/gtm.js?id=GTM-DEMO");
   });
 
+  test("should append multiple google tag manager scripts to DOM", () => {
+    const appDiv: HTMLDivElement = document.createElement("div");
+    appDiv.id = "app";
+    document.body.appendChild(appDiv);
+
+    const app: App<Element> = createApp(
+      defineComponent({
+        name: "App",
+        render() {
+          return null;
+        },
+      })
+    );
+
+    expect(window["dataLayer"]).toBeUndefined();
+    expect(document.scripts.length).toBe(0);
+
+    app.use(
+      createGtm({
+        id: [
+          { id: "GTM-DEMO", queryParams: { gtm_auth: "abc123", gtm_preview: "env-1", gtm_cookies_win: "x" } },
+          { id: "GTM-DEMO2", queryParams: { gtm_auth: "abc234", gtm_preview: "env-2", gtm_cookies_win: "x" } },
+        ],
+      })
+    );
+
+    app.mount("#app");
+
+    expect(window["dataLayer"]).toBeDefined();
+    expect(document.scripts.length).toBe(2);
+    expect(document.scripts.item(0)).toBeDefined();
+    expect(document.scripts.item(0)?.src).toBe("https://www.googletagmanager.com/gtm.js?id=GTM-DEMO");
+    expect(document.scripts.item(1)?.src).toBe("https://www.googletagmanager.com/gtm.js?id=GTM-DEMO2");
+  });
+
   test("should not append google tag manager script to DOM if disabled", () => {
     const appDiv: HTMLDivElement = document.createElement("div");
     appDiv.id = "app";
