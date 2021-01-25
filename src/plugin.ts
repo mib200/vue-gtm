@@ -1,6 +1,16 @@
 import pluginConfig, { VueGtmContainer } from "./config";
 import { hasScript, loadScript, logDebug } from "./utils";
 
+export interface DataLayerObject extends Record<string, any> {
+  event: string;
+}
+
+declare global {
+  interface Window {
+    dataLayer?: DataLayerObject[];
+  }
+}
+
 const inBrowser: boolean = typeof window !== "undefined";
 
 export interface VueGtmTrackEventParams {
