@@ -1,6 +1,12 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.3.0...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.1...master)
+
+# 3.3.1
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.0...3.3.1)
+
+- Hotfix for `dataLayer`
 
 # 3.3.0
 
