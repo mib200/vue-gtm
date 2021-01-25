@@ -1,5 +1,5 @@
 import { App, nextTick, Plugin } from "vue";
-import pluginConfig, { VueGtmQueryParams, VueGtmUseOptions } from "./config";
+import pluginConfig, { VueGtmContainer, VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
@@ -13,9 +13,13 @@ const GTM_ID_PATTERN: RegExp = /^GTM-[0-9A-Z]+$/;
  */
 function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   if (Array.isArray(initConf.id)) {
-    for (const id of initConf.id) {
-      if (!GTM_ID_PATTERN.test(id)) {
-        throw new Error(`GTM-ID '${id}' is not valid`);
+    for (const idOrObject of initConf.id) {
+      if (typeof idOrObject === "string") {
+        if (!GTM_ID_PATTERN.test(idOrObject)) {
+          throw new Error(`GTM-ID '${idOrObject}' is not valid`);
+        }
+      } else if (!GTM_ID_PATTERN.test(idOrObject.id)) {
+        throw new Error(`GTM-ID '${idOrObject.id}' is not valid`);
       }
     }
   } else if (!GTM_ID_PATTERN.test(initConf.id)) {
@@ -48,8 +52,16 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   // Load GTM script when enabled
   if (pluginConfig.enabled && pluginConfig.loadScript) {
     if (Array.isArray(initConf.id)) {
-      initConf.id.forEach((id) => {
-        loadScript(id, initConf);
+      initConf.id.forEach((id: string | VueGtmContainer) => {
+        if (typeof id === "string") {
+          loadScript(id, initConf);
+        } else {
+          initConf = {
+            ...initConf,
+            ...(id.queryParams ?? {}),
+          };
+          loadScript(id.id, initConf);
+        }
       });
     } else {
       loadScript(initConf.id, initConf);
