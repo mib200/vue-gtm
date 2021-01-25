@@ -1,11 +1,11 @@
-import pluginConfig from "./config";
+import pluginConfig, { VueGtmContainer } from "./config";
 import { hasScript, loadScript, logDebug } from "./utils";
 
 const inBrowser: boolean = typeof window !== "undefined";
 
 export interface VueGtmTrackEventParams {
   [key: string]: any;
-  event?: any;
+  event?: string;
   category?: any;
   action?: any;
   label?: any;
@@ -17,7 +17,7 @@ export interface VueGtmTrackEventParams {
  * Plugin main class
  */
 export default class VueGtmPlugin {
-  constructor(public readonly id: string | string[]) {}
+  constructor(public readonly id: string | string[] | VueGtmContainer[]) {}
 
   /**
    * Check if plugin is enabled
@@ -36,12 +36,20 @@ export default class VueGtmPlugin {
 
     if (inBrowser && !!val && !hasScript() && pluginConfig.loadScript) {
       if (Array.isArray(this.id)) {
-        this.id.forEach((id) => {
-          loadScript(id, {
-            defer: pluginConfig.defer,
-            compatibility: pluginConfig.compatibility,
-            queryParams: pluginConfig.queryParams,
-          });
+        this.id.forEach((id: string | VueGtmContainer) => {
+          if (typeof id === "string") {
+            loadScript(id, {
+              defer: pluginConfig.defer,
+              compatibility: pluginConfig.compatibility,
+              queryParams: pluginConfig.queryParams,
+            });
+          } else {
+            loadScript(id.id, {
+              defer: pluginConfig.defer,
+              compatibility: pluginConfig.compatibility,
+              queryParams: id.queryParams,
+            });
+          }
         });
       } else {
         loadScript(this.id, {
@@ -69,9 +77,9 @@ export default class VueGtmPlugin {
     pluginConfig.debug = val;
   }
 
-  dataLayer(): Array<Record<string, any>> | false {
+  dataLayer(): DataLayerObject[] | false {
     if (inBrowser && pluginConfig.enabled) {
-      return (window.dataLayer = window.dataLayer || []);
+      return (window.dataLayer = window.dataLayer ?? []);
     }
     return false;
   }
@@ -80,7 +88,7 @@ export default class VueGtmPlugin {
     logDebug("Dispatching TrackView", { screenName, path });
 
     if (inBrowser && pluginConfig.enabled) {
-      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
         ...additionalEventData,
         event: "content-view",
@@ -91,7 +99,7 @@ export default class VueGtmPlugin {
   }
 
   trackEvent({
-    event = null,
+    event,
     category = null,
     action = null,
     label = null,
@@ -109,9 +117,9 @@ export default class VueGtmPlugin {
     });
 
     if (inBrowser && pluginConfig.enabled) {
-      let dataLayer = (window.dataLayer = window.dataLayer || []);
+      const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
-        event: event || "interaction",
+        event: event ?? "interaction",
         target: category,
         action: action,
         "target-properties": label,

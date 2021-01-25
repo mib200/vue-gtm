@@ -1,6 +1,30 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.1.1...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.0...master)
+
+# 3.3.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.2.1...3.3.0)
+
+- Multiple GTM-container support ([#114])
+
+[#114]: https://github.com/mib200/vue-gtm/pull/114
+
+# 3.2.1
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.2.0...3.2.1)
+
+- Fix $gtm typing ([#111])
+
+[#111]: https://github.com/mib200/vue-gtm/issues/111
+
+# 3.2.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.1.1...3.2.0)
+
+- Usable gtm instance in composition API ([#107])
+
+[#107]: https://github.com/mib200/vue-gtm/pull/107
 
 # 3.1.1
 

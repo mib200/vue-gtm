@@ -56,53 +56,57 @@ This plugin will help you in your common GTM tasks.
 Here is an example configuration:
 
 ```js
-import { createApp } from 'vue';
-import { createGtm } from 'vue-gtm';
+import { createApp } from "vue";
+import { createGtm } from "vue-gtm";
 import router from "./router";
 
 const app = createApp(App);
 
 app.use(router);
 
-app.use(createGtm({
-  id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
-  queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
-    gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
-    gtm_preview:'env-4',
-    gtm_cookies_win:'x'
-  },
-  defer: false, // Script can be set to `defer` to speed up page load at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible). Defaults to false, so the script is loaded `async` by default
-  compatibility: false, // Will add `async` and `defer` to the script tag to not block requests for old browsers that do not support `async`
-  enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
-  debug: true, // Whether or not display console logs debugs (optional)
-  loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
-  vueRouter: router, // Pass the router instance to automatically sync with router (optional)
-  ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
-  trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
-}));
+app.use(
+  createGtm({
+    id: "GTM-xxxxxx", // Your GTM single container ID, array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy'] or array of objects [{id: 'GTM-xxxxxx', queryPararms: { gtm_auth: 'abc123', gtm_preview: 'env-4', gtm_cookies_win: 'x'}}, {id: 'GTM-yyyyyy', queryParams: {gtm_auth: 'abc234', gtm_preview: 'env-5', gtm_cookies_win: 'x'}}], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
+    queryParams: {
+      // Add url query string when load gtm.js with GTM ID (optional)
+      gtm_auth: "AB7cDEf3GHIjkl-MnOP8qr",
+      gtm_preview: "env-4",
+      gtm_cookies_win: "x",
+    },
+    defer: false, // Script can be set to `defer` to speed up page load at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible). Defaults to false, so the script is loaded `async` by default
+    compatibility: false, // Will add `async` and `defer` to the script tag to not block requests for old browsers that do not support `async`
+    enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
+    debug: true, // Whether or not display console logs debugs (optional)
+    loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
+    vueRouter: router, // Pass the router instance to automatically sync with router (optional)
+    ignoredViews: ["homepage"], // Don't trigger events for specified router names (case insensitive) (optional)
+    trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
+  })
+);
 ```
 
 <details>
   <summary>Vue 2 example</summary>
 
 ```js
-import VueGtm from 'vue-gtm';
-import VueRouter from 'vue-router';
+import VueGtm from "vue-gtm";
+import VueRouter from "vue-router";
 const router = new VueRouter({ routes, mode, linkActiveClass });
 
 Vue.use(VueGtm, {
-  id: 'GTM-xxxxxx' or ['GTM-xxxxxx', 'GTM-yyyyyy'], // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy']
-  queryParams: { // Add url query string when load gtm.js with GTM ID (optional)
-    gtm_auth:'AB7cDEf3GHIjkl-MnOP8qr',
-    gtm_preview:'env-4',
-    gtm_cookies_win:'x'
+  id: "GTM-xxxxxx", // Your GTM single container ID or array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy'] or array of objects [{id: 'GTM-xxxxxx', queryPararms: { gtm_auth: 'abc123', gtm_preview: 'env-4', gtm_cookies_win: 'x'}}, {id: 'GTM-yyyyyy', queryParams: {gtm_auth: 'abc234', gtm_preview: 'env-5', gtm_cookies_win: 'x'}}]
+  queryParams: {
+    // Add url query string when load gtm.js with GTM ID (optional)
+    gtm_auth: "AB7cDEf3GHIjkl-MnOP8qr",
+    gtm_preview: "env-4",
+    gtm_cookies_win: "x",
   },
   defer: false, // defaults to false. Script can be set to `defer` to increase page-load-time at the cost of less accurate results (in case visitor leaves before script is loaded, which is unlikely but possible)
   enabled: true, // defaults to true. Plugin can be disabled by setting this to false for Ex: enabled: !!GDPR_Cookie (optional)
   debug: true, // Whether or not display console logs debugs (optional)
   loadScript: true, // Whether or not to load the GTM Script (Helpful if you are including GTM manually, but need the dataLayer functionality in your components) (optional)
   vueRouter: router, // Pass the router instance to automatically sync with router (optional)
-  ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
+  ignoredViews: ["homepage"], // Don't trigger events for specified router names (case insensitive) (optional)
   trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
 });
 ```
@@ -160,6 +164,17 @@ dataLayer.push({
 
 You can also access the instance anywhere whenever you imported `Vue` by using `Vue.gtm`. It is especially useful when you are in a store module or somewhere else than a component's scope.
 
+It's also possible to send completely custom data to GTM with just pushing something manually to `dataLayer`:
+
+```js
+if (this.$gtm.enabled()) {
+  window.dataLayer?.push({
+    event: "myEvent",
+    // further parameters
+  });
+}
+```
+
 ## Sync gtm with your router
 
 Thanks to vue-router guards, you can automatically dispatch new screen views on router change!
@@ -167,10 +182,10 @@ To use this feature, you just need to inject the router instance on plugin initi
 
 This feature will generate the view name according to a priority rule:
 
-- If you defined a meta field for you route named `gtm` this will take the value of this field for the view name.
+- If you defined a meta field for your route named `gtm` this will take the value of this field for the view name.
 - Otherwise, if the plugin don't have a value for the `meta.gtm` it will fallback to the internal route name.
 
-Most of time the second case is enough, but sometimes you want to have more control on what is sent, this is where the first rule shine.
+Most of teh time the second case is enough, but sometimes you want to have more control on what is sent, this is where the first rule shine.
 
 Example:
 
@@ -184,6 +199,45 @@ const myRoute = {
 ```
 
 > This will use `MyCustomValue` as the view name.
+
+## Using with composition API
+
+In order to use this plugin with composition API (inside your `setup` method), you can just call the custom composable `useGtm`.
+
+Example:
+
+```vue
+<template>
+  <button @click="triggerEvent">Trigger event!</button>
+</template>
+
+<script>
+import { useGtm } from "vue-gtm";
+
+export default {
+  name: "MyCustomComponent",
+
+  setup() {
+    const gtm = useGtm();
+
+    function triggerEvent() {
+      gtm.trackEvent({
+        event: "event name",
+        category: "category",
+        action: "click",
+        label: "My custom component trigger",
+        value: 5000,
+        noninteraction: false,
+      });
+    }
+
+    return {
+      triggerEvent,
+    };
+  },
+};
+</script>
+```
 
 ## Methods
 

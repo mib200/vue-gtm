@@ -1,10 +1,10 @@
 import _Vue, { PluginObject } from "vue";
-import pluginConfig, { VueGtmQueryParams, VueGtmUseOptions } from "./config";
+import pluginConfig, { VueGtmContainer, VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
-const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
-
+let gtmPlugin: GtmPlugin | undefined;
+const GTM_ID_PATTERN: RegExp = /^GTM-[0-9A-Z]+$/;
 /**
  * Installation procedure
  *
@@ -13,9 +13,13 @@ const GTM_ID_PATTERN: RegExp = /^GTM\-[0-9A-Z]+$/;
  */
 function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): void {
   if (Array.isArray(initConf.id)) {
-    for (const id of initConf.id) {
-      if (!GTM_ID_PATTERN.test(id)) {
-        throw new Error(`GTM-ID '${id}' is not valid`);
+    for (const idOrObject of initConf.id) {
+      if (typeof idOrObject === "string") {
+        if (!GTM_ID_PATTERN.test(idOrObject)) {
+          throw new Error(`GTM-ID '${idOrObject}' is not valid`);
+        }
+      } else if (!GTM_ID_PATTERN.test(idOrObject.id)) {
+        throw new Error(`GTM-ID '${idOrObject.id}' is not valid`);
       }
     }
   } else if (!GTM_ID_PATTERN.test(initConf.id)) {
@@ -36,20 +40,28 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): voi
     ...initConf.queryParams,
   } as VueGtmQueryParams;
 
+  // Add to vue prototype and also from globals
+  gtmPlugin = new GtmPlugin(pluginConfig.id);
+  Vue.prototype.$gtm = Vue.gtm = gtmPlugin;
+
   // Handle vue-router if defined
   if (initConf.vueRouter) {
     initVueRouterGuard(Vue, initConf);
   }
 
-  // Add to vue prototype and also from globals
-  // @ts-expect-error
-  Vue.prototype.$gtm = Vue.gtm = new GtmPlugin(pluginConfig.id);
-
   // Load GTM script when enabled
   if (pluginConfig.enabled && pluginConfig.loadScript) {
     if (Array.isArray(initConf.id)) {
-      initConf.id.forEach((id) => {
-        loadScript(id, initConf);
+      initConf.id.forEach((id: string | VueGtmContainer) => {
+        if (typeof id === "string") {
+          loadScript(id, initConf);
+        } else {
+          initConf = {
+            ...initConf,
+            ...(id.queryParams ?? {}),
+          };
+          loadScript(id.id, initConf);
+        }
       });
     } else {
       loadScript(initConf.id, initConf);
@@ -69,12 +81,14 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): voi
  */
 function initVueRouterGuard(
   Vue: typeof _Vue,
-  { vueRouter, ignoredViews, trackOnNextTick }: VueGtmUseOptions
+  { vueRouter, ignoredViews = [], trackOnNextTick }: VueGtmUseOptions
 ): string[] | undefined {
-  // Flatten routes name
-  if (ignoredViews) {
-    ignoredViews = ignoredViews.map((view) => view.toLowerCase());
+  if (!vueRouter) {
+    return;
   }
+
+  // Flatten routes name
+  ignoredViews = ignoredViews.map((view) => view.toLowerCase());
 
   vueRouter.afterEach(
     (to: {
@@ -86,12 +100,12 @@ function initVueRouterGuard(
       fullPath: string;
     }) => {
       // Ignore some routes
-      if (!to.name || (ignoredViews && ignoredViews.indexOf(to.name.toLowerCase()) !== -1)) {
+      if (!to.name || ignoredViews.indexOf(to.name.toLowerCase()) !== -1) {
         return;
       }
 
       // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
-      const name: string = to.meta.gtm || to.name;
+      const name: string = to.meta.gtm ?? to.name;
       const additionalEventData: Record<string, any> = to.meta.gtmAdditionalEventData ?? {};
       const baseUrl: string = vueRouter.options.base || "";
       let fullUrl: string = baseUrl;
@@ -102,10 +116,10 @@ function initVueRouterGuard(
 
       if (trackOnNextTick) {
         Vue.nextTick(() => {
-          Vue.gtm.trackView(name, fullUrl, additionalEventData);
+          gtmPlugin?.trackView(name, fullUrl, additionalEventData);
         });
       } else {
-        Vue.gtm.trackView(name, fullUrl, additionalEventData);
+        gtmPlugin?.trackView(name, fullUrl, additionalEventData);
       }
     }
   );
@@ -115,10 +129,10 @@ function initVueRouterGuard(
 
 declare module "vue/types/vue" {
   export interface Vue {
-    $gtm: VueGtmPlugin;
+    $gtm: GtmPlugin;
   }
   export interface VueConstructor<V extends Vue = Vue> {
-    gtm: VueGtmPlugin;
+    gtm: GtmPlugin;
   }
 }
 
@@ -128,3 +142,10 @@ export { VueGtmUseOptions } from "./config";
 const _default: VueGtmPlugin = { install };
 
 export default _default;
+
+/**
+ * Returns gtm plugin to be used via composition api inside setup method
+ */
+export function useGtm(): GtmPlugin | undefined {
+  return gtmPlugin;
+}

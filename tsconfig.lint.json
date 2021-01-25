@@ -2,15 +2,12 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "CommonJS",
-    "inlineSourceMap": false,
     "lib": ["ES2020", "DOM"],
-    "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "strict": true,
     "downlevelIteration": true,
-    "declaration": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true
   },
-  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
