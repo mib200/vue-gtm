@@ -1,6 +1,14 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.2.1...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.0...master)
+
+# 3.3.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.2.1...3.3.0)
+
+- Multiple GTM-container support ([#114])
+
+[#114]: https://github.com/mib200/vue-gtm/pull/114
 
 # 3.2.1
 
