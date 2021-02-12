@@ -1,6 +1,14 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.3.1...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.2...master)
+
+# 3.3.2
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.1...3.3.2)
+
+- Pass queryParams correctly to script ([#117])
+
+[#117]: https://github.com/mib200/vue-gtm/pull/117
 
 # 3.3.1
 
