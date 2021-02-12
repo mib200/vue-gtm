@@ -56,11 +56,18 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
         if (typeof id === "string") {
           loadScript(id, initConf);
         } else {
-          initConf = {
+          const newConf: VueGtmUseOptions = {
             ...initConf,
-            ...(id.queryParams ?? {}),
           };
-          loadScript(id.id, initConf);
+
+          if (id.queryParams !== null) {
+            newConf.queryParams = {
+              ...newConf.queryParams,
+              ...id.queryParams,
+            } as VueGtmQueryParams;
+          }
+
+          loadScript(id.id, newConf);
         }
       });
     } else {
