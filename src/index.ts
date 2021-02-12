@@ -60,7 +60,7 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
             ...initConf,
           };
 
-          if (id.queryParams !== null) {
+          if (id.queryParams != null) {
             newConf.queryParams = {
               ...newConf.queryParams,
               ...id.queryParams,
