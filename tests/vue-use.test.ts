@@ -69,8 +69,12 @@ describe.skip("Vue.use", () => {
     expect(window["dataLayer"]).toBeDefined();
     expect(document.scripts.length).toBe(2);
     expect(document.scripts.item(0)).toBeDefined();
-    expect(document.scripts.item(0)?.src).toBe("https://www.googletagmanager.com/gtm.js?id=GTM-DEMO");
-    expect(document.scripts.item(1)?.src).toBe("https://www.googletagmanager.com/gtm.js?id=GTM-DEMO2");
+    expect(document.scripts.item(0)?.src).toBe(
+      "https://www.googletagmanager.com/gtm.js?id=GTM-DEMO&gtm_auth=abc123&gtm_preview=env-1&gtm_cookies_win=x"
+    );
+    expect(document.scripts.item(1)?.src).toBe(
+      "https://www.googletagmanager.com/gtm.js?id=GTM-DEMO2&gtm_auth=abc234&gtm_preview=env-2&gtm_cookies_win=x"
+    );
   });
 
   test("should not append google tag manager script to DOM if disabled", () => {
