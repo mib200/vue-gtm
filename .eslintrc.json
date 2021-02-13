@@ -20,7 +20,7 @@
     "project": ["./tsconfig.lint.json"],
     "warnOnUnsupportedTypeScriptVersion": false
   },
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier", "spellcheck"],
   "rules": {
     "curly": ["error"],
     "linebreak-style": ["error", "unix"],
@@ -44,6 +44,14 @@
     "@typescript-eslint/prefer-optional-chain": "warn",
     "@typescript-eslint/prefer-readonly": ["warn"],
     "@typescript-eslint/restrict-template-expressions": "off",
-    "@typescript-eslint/typedef": ["warn", { "memberVariableDeclaration": true, "variableDeclaration": true }]
+    "@typescript-eslint/typedef": ["warn", { "memberVariableDeclaration": true, "variableDeclaration": true }],
+
+    "spellcheck/spell-checker": [
+      "warn",
+      {
+        "minLength": 3,
+        "skipWords": ["globals", "googletagmanager", "gtm", "noninteraction", "nullish", "pararms", "vue"]
+      }
+    ]
   }
 }

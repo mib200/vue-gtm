@@ -10,6 +10,7 @@ export interface VueGtmContainer {
 }
 
 export interface VueGtmUseOptions {
+  // eslint-disable-next-line spellcheck/spell-checker
   /**
    * Your GTM single container ID, array of container ids ['GTM-xxxxxx', 'GTM-yyyyyy'], or array of objects [{id: 'GTM-xxxxxx', queryPararms: { gtm_auth: 'abc123', gtm_preview: 'env-4', gtm_cookies_win: 'x'}}, {id: 'GTM-yyyyyy', queryParams: {gtm_auth: 'abc234', gtm_preview: 'env-5', gtm_cookies_win: 'x'}}].
    */

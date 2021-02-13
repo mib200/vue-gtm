@@ -143,7 +143,7 @@ export default {
     },
   },
   mounted() {
-    this.$gtm.trackView("MyScreenName", "currentpath");
+    this.$gtm.trackView("MyScreenName", "currentPath");
   },
 };
 ```
