@@ -9,7 +9,8 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "plugin:jsdoc/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -20,7 +21,7 @@
     "project": ["./tsconfig.lint.json"],
     "warnOnUnsupportedTypeScriptVersion": false
   },
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier", "jsdoc", "spellcheck"],
   "rules": {
     "curly": ["error"],
     "linebreak-style": ["error", "unix"],
@@ -29,14 +30,12 @@
     "quotes": ["error", "double", { "avoidEscape": true }],
     "semi": ["error", "always"],
 
-    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
+    "@typescript-eslint/explicit-member-accessibility": "error",
     "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 1, "ignoredNodes": ["MemberExpression"] }],
-    "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/member-ordering": "warn",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-inferrable-types": "off",
-    "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unused-vars": "off",
@@ -44,6 +43,40 @@
     "@typescript-eslint/prefer-optional-chain": "warn",
     "@typescript-eslint/prefer-readonly": ["warn"],
     "@typescript-eslint/restrict-template-expressions": "off",
-    "@typescript-eslint/typedef": ["warn", { "memberVariableDeclaration": true, "variableDeclaration": true }]
+    "@typescript-eslint/typedef": ["warn", { "memberVariableDeclaration": true, "variableDeclaration": true }],
+
+    "jsdoc/match-description": [
+      "warn",
+      {
+        "mainDescription": "^[A-Z`].*\\.$",
+        "matchDescription": "^([A-Z`].*(\\.|:)|-\\s.*)$",
+        "contexts": ["any"],
+        "tags": {
+          "param": true,
+          "returns": true
+        }
+      }
+    ],
+    "jsdoc/no-types": "error",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-returns-type": "off",
+
+    "spellcheck/spell-checker": [
+      "warn",
+      {
+        "minLength": 3,
+        "skipWords": [
+          "globals",
+          "googletagmanager",
+          "gtm",
+          "noninteraction",
+          "nullish",
+          "overridable",
+          "pararms",
+          "readonly",
+          "vue"
+        ]
+      }
+    ]
   }
 }

@@ -1,63 +1,64 @@
 import _Vue, { PluginObject } from "vue";
-import pluginConfig, { VueGtmContainer, VueGtmQueryParams, VueGtmUseOptions } from "./config";
+import { DEFAULT_CONFIG, VueGtmContainer, VueGtmQueryParams, VueGtmUseOptions } from "./config";
 import GtmPlugin from "./plugin";
 import { loadScript } from "./utils";
 
 let gtmPlugin: GtmPlugin | undefined;
 const GTM_ID_PATTERN: RegExp = /^GTM-[0-9A-Z]+$/;
+
 /**
- * Installation procedure
+ * Assert that the given id is a valid GTM Container ID.
  *
- * @param Vue
- * @param initConf
+ * Tested against pattern: `/^GTM-[0-9A-Z]+$/`.
+ *
+ * @param id A GTM Container ID.
  */
-function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): void {
-  if (Array.isArray(initConf.id)) {
-    for (const idOrObject of initConf.id) {
+function assertIsGtmId(id: string): asserts id {
+  if (typeof id !== "string" || !GTM_ID_PATTERN.test(id)) {
+    throw new Error(`GTM-ID '${id}' is not valid`);
+  }
+}
+
+/**
+ * Installation procedure.
+ *
+ * @param Vue The Vue instance.
+ * @param options Configuration options.
+ */
+function install(Vue: typeof _Vue, options: VueGtmUseOptions = { id: "" }): void {
+  if (Array.isArray(options.id)) {
+    for (const idOrObject of options.id) {
       if (typeof idOrObject === "string") {
-        if (!GTM_ID_PATTERN.test(idOrObject)) {
-          throw new Error(`GTM-ID '${idOrObject}' is not valid`);
-        }
-      } else if (!GTM_ID_PATTERN.test(idOrObject.id)) {
-        throw new Error(`GTM-ID '${idOrObject.id}' is not valid`);
+        assertIsGtmId(idOrObject);
+      } else {
+        assertIsGtmId(idOrObject.id);
       }
     }
-  } else if (!GTM_ID_PATTERN.test(initConf.id)) {
-    throw new Error(`GTM-ID '${initConf.id}' is not valid`);
+  } else {
+    assertIsGtmId(options.id);
   }
 
   // Apply default configuration
-  initConf = { ...pluginConfig, ...initConf };
-
-  pluginConfig.id = initConf.id;
-  pluginConfig.debug = initConf.debug;
-  pluginConfig.enabled = initConf.enabled;
-  pluginConfig.loadScript = initConf.loadScript;
-  pluginConfig.defer = initConf.defer;
-  pluginConfig.compatibility = initConf.compatibility;
-  pluginConfig.queryParams = {
-    ...pluginConfig.queryParams,
-    ...initConf.queryParams,
-  } as VueGtmQueryParams;
+  options = { ...DEFAULT_CONFIG, ...options };
 
   // Add to vue prototype and also from globals
-  gtmPlugin = new GtmPlugin(pluginConfig.id);
+  gtmPlugin = new GtmPlugin(options.id, options);
   Vue.prototype.$gtm = Vue.gtm = gtmPlugin;
 
   // Handle vue-router if defined
-  if (initConf.vueRouter) {
-    initVueRouterGuard(Vue, initConf);
+  if (options.vueRouter) {
+    initVueRouterGuard(Vue, options.vueRouter, options.ignoredViews, options.trackOnNextTick);
   }
 
   // Load GTM script when enabled
-  if (pluginConfig.enabled && pluginConfig.loadScript) {
-    if (Array.isArray(initConf.id)) {
-      initConf.id.forEach((id: string | VueGtmContainer) => {
+  if (gtmPlugin.options.enabled && gtmPlugin.options.loadScript) {
+    if (Array.isArray(options.id)) {
+      options.id.forEach((id: string | VueGtmContainer) => {
         if (typeof id === "string") {
-          loadScript(id, initConf);
+          loadScript(id, options);
         } else {
           const newConf: VueGtmUseOptions = {
-            ...initConf,
+            ...options,
           };
 
           if (id.queryParams != null) {
@@ -71,24 +72,26 @@ function install(Vue: typeof _Vue, initConf: VueGtmUseOptions = { id: "" }): voi
         }
       });
     } else {
-      loadScript(initConf.id, initConf);
+      loadScript(options.id, options);
     }
   }
 }
 
 /**
- * Init the router guard.
+ * Initialize the router guard.
  *
- * @param Vue - The Vue instance
- * @param vueRouter - The Vue router instance to attach guard
- * @param ignoredViews - An array of route name to ignore
- * @param trackOnNextTick - Whether or not call trackView in Vue.nextTick
+ * @param Vue The Vue instance.
+ * @param vueRouter The Vue router instance to attach the guard.
+ * @param ignoredViews An array of route name that will be ignored.
+ * @param trackOnNextTick Whether or not to call `trackView` in `Vue.nextTick`.
  *
- * @returns The ignored routes names formalized.
+ * @returns The ignored routes names normalized.
  */
 function initVueRouterGuard(
   Vue: typeof _Vue,
-  { vueRouter, ignoredViews = [], trackOnNextTick }: VueGtmUseOptions
+  vueRouter: VueGtmUseOptions["vueRouter"],
+  ignoredViews: VueGtmUseOptions["ignoredViews"] = [],
+  trackOnNextTick: VueGtmUseOptions["trackOnNextTick"]
 ): string[] | undefined {
   if (!vueRouter) {
     return;
@@ -151,7 +154,9 @@ const _default: VueGtmPlugin = { install };
 export default _default;
 
 /**
- * Returns gtm plugin to be used via composition api inside setup method
+ * Returns GTM plugin instance to be used via Composition API inside setup method.
+ *
+ * @returns The Vue GTM instance if the it was installed, otherwise `undefined`.
  */
 export function useGtm(): GtmPlugin | undefined {
   return gtmPlugin;
