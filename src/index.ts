@@ -7,6 +7,19 @@ let gtmPlugin: GtmPlugin | undefined;
 const GTM_ID_PATTERN: RegExp = /^GTM-[0-9A-Z]+$/;
 
 /**
+ * Assert that the given id is a valid GTM Container ID.
+ *
+ * Tested against pattern: `/^GTM-[0-9A-Z]+$/`.
+ *
+ * @param id A GTM Container ID.
+ */
+function assertIsGtmId(id: string): asserts id {
+  if (typeof id !== "string" || !GTM_ID_PATTERN.test(id)) {
+    throw new Error(`GTM-ID '${id}' is not valid`);
+  }
+}
+
+/**
  * Installation procedure.
  *
  * @param Vue The Vue instance.
@@ -16,15 +29,13 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   if (Array.isArray(initConf.id)) {
     for (const idOrObject of initConf.id) {
       if (typeof idOrObject === "string") {
-        if (!GTM_ID_PATTERN.test(idOrObject)) {
-          throw new Error(`GTM-ID '${idOrObject}' is not valid`);
-        }
-      } else if (!GTM_ID_PATTERN.test(idOrObject.id)) {
-        throw new Error(`GTM-ID '${idOrObject.id}' is not valid`);
+        assertIsGtmId(idOrObject);
+      } else {
+        assertIsGtmId(idOrObject.id);
       }
     }
-  } else if (!GTM_ID_PATTERN.test(initConf.id)) {
-    throw new Error(`GTM-ID '${initConf.id}' is not valid`);
+  } else {
+    assertIsGtmId(initConf.id);
   }
 
   // Apply default configuration

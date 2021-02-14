@@ -1,3 +1,4 @@
+import type { App } from "vue";
 import VueGtm, { createGtm, useGtm } from "../src/index";
 import { appendAppDivToBody, cleanUpDataLayer, createAppWithComponent } from "./vue-helper";
 
@@ -10,6 +11,30 @@ describe("Default", () => {
     expect(VueGtm).toBeDefined();
     expect(VueGtm.install).toBeDefined();
     expect(VueGtm.install).toBeInstanceOf(Function);
+  });
+
+  test("should throw Error if GTM-ID is invalid", () => {
+    const validGtmId: string = "GTM-X";
+    const invalidGtmIds: string[] = ["GTM-x", "a", "gtm-a", "Error: ", "Error"];
+    const fakeVueInstance: App = (null as unknown) as App;
+    for (const invalidGtmId of invalidGtmIds) {
+      const expectedErrorMessage: string = `GTM-ID '${invalidGtmId}' is not valid`;
+      expect(() => {
+        VueGtm.install?.(fakeVueInstance, { id: invalidGtmId });
+      }).toThrowError(new Error(expectedErrorMessage));
+      expect(() => {
+        VueGtm.install?.(fakeVueInstance, { id: [invalidGtmId] });
+      }).toThrowError(new Error(expectedErrorMessage));
+      expect(() => {
+        VueGtm.install?.(fakeVueInstance, { id: [validGtmId, invalidGtmId] });
+      }).toThrowError(new Error(expectedErrorMessage));
+      expect(() => {
+        VueGtm.install?.(fakeVueInstance, { id: [{ id: invalidGtmId }] });
+      }).toThrowError(new Error(expectedErrorMessage));
+      expect(() => {
+        VueGtm.install?.(fakeVueInstance, { id: [{ id: validGtmId }, { id: invalidGtmId }] });
+      }).toThrowError(new Error(expectedErrorMessage));
+    }
   });
 
   test("should expose useGtm function", () => {
