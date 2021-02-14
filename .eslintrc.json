@@ -9,7 +9,8 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "plugin:jsdoc/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -20,7 +21,7 @@
     "project": ["./tsconfig.lint.json"],
     "warnOnUnsupportedTypeScriptVersion": false
   },
-  "plugins": ["@typescript-eslint", "prettier", "spellcheck"],
+  "plugins": ["@typescript-eslint", "prettier", "jsdoc", "spellcheck"],
   "rules": {
     "curly": ["error"],
     "linebreak-style": ["error", "unix"],
@@ -46,11 +47,27 @@
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/typedef": ["warn", { "memberVariableDeclaration": true, "variableDeclaration": true }],
 
+    "jsdoc/match-description": [
+      "warn",
+      {
+        "mainDescription": "^[A-Z`].*\\.$",
+        "matchDescription": "^[A-Z`].*\\.$",
+        "contexts": ["any"],
+        "tags": {
+          "param": true,
+          "returns": true
+        }
+      }
+    ],
+    "jsdoc/no-types": "error",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-returns-type": "off",
+
     "spellcheck/spell-checker": [
       "warn",
       {
         "minLength": 3,
-        "skipWords": ["globals", "googletagmanager", "gtm", "noninteraction", "nullish", "pararms", "vue"]
+        "skipWords": ["globals", "googletagmanager", "gtm", "noninteraction", "nullish", "pararms", "readonly", "vue"]
       }
     ]
   }

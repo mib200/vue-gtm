@@ -2,9 +2,10 @@ import "url-search-params-polyfill";
 import pluginConfig, { VueGtmUseOptions } from "./config";
 
 /**
- * Console log depending on config debug mode
+ * Console log depending on config debug mode.
  *
- * @param message
+ * @param message The message to log.
+ * @param args Optional arguments to pass as further parameters.
  */
 export function logDebug(message: string, args: Record<string, any>): void {
   if (pluginConfig.debug) {
@@ -13,10 +14,10 @@ export function logDebug(message: string, args: Record<string, any>): void {
 }
 
 /**
- * Load GTM script tag
+ * Load GTM script tag.
  *
- * @param id GTM ID
- * @param params query params object
+ * @param id GTM ID.
+ * @param config The config object.
  */
 export function loadScript(
   id: string,
@@ -49,7 +50,9 @@ export function loadScript(
 }
 
 /**
- * Check if GTM script is in the document
+ * Check if GTM script is in the document.
+ *
+ * @returns `true` if in the `document` is a `script` with `src` containing `googletagmanager.com/gtm.js`, otherwise `false`.
  */
 export function hasScript(): boolean {
   return Array.from(document.getElementsByTagName("script")).some((script) =>

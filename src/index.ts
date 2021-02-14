@@ -5,11 +5,12 @@ import { loadScript } from "./utils";
 
 let gtmPlugin: GtmPlugin | undefined;
 const GTM_ID_PATTERN: RegExp = /^GTM-[0-9A-Z]+$/;
+
 /**
- * Installation procedure
+ * Installation procedure.
  *
- * @param Vue
- * @param initConf
+ * @param Vue The Vue instance.
+ * @param initConf The initial configuration.
  */
 function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
   if (Array.isArray(initConf.id)) {
@@ -46,7 +47,7 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
 
   // Handle vue-router if defined
   if (initConf.vueRouter) {
-    initVueRouterGuard(Vue, initConf);
+    initVueRouterGuard(Vue, initConf.vueRouter, initConf.ignoredViews, initConf.trackOnNextTick);
   }
 
   // Load GTM script when enabled
@@ -79,18 +80,20 @@ function install(Vue: App, initConf: VueGtmUseOptions = { id: "" }): void {
 }
 
 /**
- * Init the router guard.
+ * Initialize the router guard.
  *
- * @param Vue - The Vue instance
- * @param vueRouter - The Vue router instance to attach guard
- * @param ignoredViews - An array of route name to ignore
- * @param trackOnNextTick - Whether or not call trackView in Vue.nextTick
+ * @param Vue The Vue instance.
+ * @param vueRouter The Vue router instance to attach the guard.
+ * @param ignoredViews An array of route name that will be ignored.
+ * @param trackOnNextTick Whether or not to call `trackView` in `Vue.nextTick`.
  *
- * @returns The ignored routes names formalized.
+ * @returns The ignored routes names normalized.
  */
 function initVueRouterGuard(
   Vue: App,
-  { vueRouter, ignoredViews = [], trackOnNextTick }: VueGtmUseOptions
+  vueRouter: VueGtmUseOptions["vueRouter"],
+  ignoredViews: VueGtmUseOptions["ignoredViews"] = [],
+  trackOnNextTick: VueGtmUseOptions["trackOnNextTick"]
 ): string[] | undefined {
   if (!vueRouter) {
     return;
@@ -136,16 +139,28 @@ function initVueRouterGuard(
   return ignoredViews;
 }
 
+/**
+ * Create the Vue GTM instance.
+ *
+ * @param options Options.
+ * @returns The Vue GTM plugin instance.
+ */
 export function createGtm(options: VueGtmUseOptions): VueGtmPlugin {
   return { install: (app: App) => install(app, options) };
 }
 
 declare module "@vue/runtime-core" {
   export interface ComponentCustomProperties {
+    /**
+     * The Vue GTM Plugin instance.
+     */
     $gtm: GtmPlugin;
   }
 }
 
+/**
+ * Vue GTM Plugin.
+ */
 export type VueGtmPlugin = Plugin;
 export { VueGtmUseOptions } from "./config";
 
@@ -154,7 +169,9 @@ const _default: VueGtmPlugin = { install };
 export default _default;
 
 /**
- * Returns gtm plugin to be used via composition api inside setup method
+ * Returns GTM plugin instance to be used via Composition API inside setup method.
+ *
+ * @returns The Vue GTM instance if the it was installed, otherwise `undefined`.
  */
 export function useGtm(): GtmPlugin | undefined {
   return gtmPlugin;
