@@ -1,17 +1,5 @@
 import "url-search-params-polyfill";
-import pluginConfig, { VueGtmUseOptions } from "./config";
-
-/**
- * Console log depending on config debug mode.
- *
- * @param message The message to log.
- * @param args Optional arguments to pass as further parameters.
- */
-export function logDebug(message: string, args: Record<string, any>): void {
-  if (pluginConfig.debug) {
-    console.log("VueGtm :", ...arguments);
-  }
-}
+import { VueGtmUseOptions } from "./config";
 
 /**
  * Load GTM script tag.

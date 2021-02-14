@@ -114,17 +114,20 @@ export interface VueGtmUseOptions {
 }
 
 /**
- * Global plugin configuration.
+ * Default configuration for the plugin.
  */
-const pluginConfig: VueGtmUseOptions = {
-  id: "",
+export const DEFAULT_CONFIG: Readonly<{
+  enabled: true;
+  debug: false;
+  trackOnNextTick: false;
+  loadScript: true;
+  defer: false;
+  compatibility: false;
+}> = {
   enabled: true,
   debug: false,
   trackOnNextTick: false,
-  queryParams: undefined,
   loadScript: true,
   defer: false,
   compatibility: false,
-};
-
-export default pluginConfig;
+} as const;

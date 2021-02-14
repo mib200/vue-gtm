@@ -1,5 +1,5 @@
-import pluginConfig, { VueGtmContainer } from "./config";
-import { hasScript, loadScript, logDebug } from "./utils";
+import { DEFAULT_CONFIG, VueGtmContainer, VueGtmUseOptions } from "./config";
+import { hasScript, loadScript } from "./utils";
 
 /**
  * Object within the `window.dataLayer`.
@@ -47,8 +47,12 @@ export default class VueGtmPlugin {
    * Constructs a new `VueGTMPlugin`.
    *
    * @param id A GTM Container ID.
+   * @param options Options.
    */
-  constructor(public readonly id: string | string[] | VueGtmContainer[]) {}
+  constructor(
+    public readonly id: string | string[] | VueGtmContainer[],
+    public readonly options: Pick<VueGtmUseOptions, keyof typeof DEFAULT_CONFIG | "queryParams"> = DEFAULT_CONFIG
+  ) {}
 
   /**
    * Check if plugin is enabled.
@@ -56,39 +60,45 @@ export default class VueGtmPlugin {
    * @returns `true` if the plugin is enabled, otherwise `false`.
    */
   enabled(): boolean {
-    return pluginConfig.enabled ?? true;
+    return this.options.enabled ?? true;
   }
 
   /**
    * Enable or disable plugin.
    *
-   * @param val State.
+   * When enabling with this function, the script will be attached to the `document` if:
+   *
+   * - the script runs in browser context
+   * - the `document` doesn't have the script already attached
+   * - the `loadScript` option is set to `true`
+   *
+   * @param enabled `true` to enable, `false` to disable. Default: `true`.
    */
-  enable(val: boolean): void {
-    pluginConfig.enabled = val;
+  enable(enabled: boolean = true): void {
+    this.options.enabled = enabled;
 
-    if (inBrowser && !!val && !hasScript() && pluginConfig.loadScript) {
+    if (inBrowser && enabled && !hasScript() && this.options.loadScript) {
       if (Array.isArray(this.id)) {
         this.id.forEach((id: string | VueGtmContainer) => {
           if (typeof id === "string") {
             loadScript(id, {
-              defer: pluginConfig.defer,
-              compatibility: pluginConfig.compatibility,
-              queryParams: pluginConfig.queryParams,
+              defer: this.options.defer,
+              compatibility: this.options.compatibility,
+              queryParams: this.options.queryParams,
             });
           } else {
             loadScript(id.id, {
-              defer: pluginConfig.defer,
-              compatibility: pluginConfig.compatibility,
+              defer: this.options.defer,
+              compatibility: this.options.compatibility,
               queryParams: id.queryParams,
             });
           }
         });
       } else {
         loadScript(this.id, {
-          defer: pluginConfig.defer,
-          compatibility: pluginConfig.compatibility,
-          queryParams: pluginConfig.queryParams,
+          defer: this.options.defer,
+          compatibility: this.options.compatibility,
+          queryParams: this.options.queryParams,
         });
       }
     }
@@ -100,16 +110,16 @@ export default class VueGtmPlugin {
    * @returns `true` if the plugin is in debug mode, otherwise `false`.
    */
   debugEnabled(): boolean {
-    return pluginConfig.debug ?? false;
+    return this.options.debug ?? false;
   }
 
   /**
    * Enable or disable debug mode.
    *
-   * @param val State.
+   * @param enable `true` to enable, `false` to disable.
    */
-  debug(val: boolean): void {
-    pluginConfig.debug = val;
+  debug(enable: boolean): void {
+    this.options.debug = enable;
   }
 
   /**
@@ -119,7 +129,7 @@ export default class VueGtmPlugin {
    * @returns The `window.dataLayer` if script is running in browser context and plugin is enabled, otherwise `false`.
    */
   dataLayer(): DataLayerObject[] | false {
-    if (inBrowser && pluginConfig.enabled) {
+    if (inBrowser && this.options.enabled) {
       return (window.dataLayer = window.dataLayer ?? []);
     }
     return false;
@@ -138,9 +148,11 @@ export default class VueGtmPlugin {
    * @param additionalEventData Additional data for the event object. `event`, `"content-name"` and `"content-view-name"` will always be overridden.
    */
   trackView(screenName: string, path: string, additionalEventData: Record<string, any> = {}): void {
-    logDebug("Dispatching TrackView", { screenName, path });
+    if (this.options.debug) {
+      console.log("[VueGtm]: Dispatching TrackView", { screenName, path });
+    }
 
-    if (inBrowser && pluginConfig.enabled) {
+    if (inBrowser && this.options.enabled) {
       const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
         ...additionalEventData,
@@ -176,16 +188,18 @@ export default class VueGtmPlugin {
     noninteraction = false,
     ...rest
   }: VueGtmTrackEventParams = {}): void {
-    logDebug("Dispatching event", {
-      event,
-      category,
-      action,
-      label,
-      value,
-      ...rest,
-    });
+    if (this.options.debug) {
+      console.log("[VueGtm]: Dispatching event", {
+        event,
+        category,
+        action,
+        label,
+        value,
+        ...rest,
+      });
+    }
 
-    if (inBrowser && pluginConfig.enabled) {
+    if (inBrowser && this.options.enabled) {
       const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
         event: event ?? "interaction",

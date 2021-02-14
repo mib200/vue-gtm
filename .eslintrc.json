@@ -51,7 +51,7 @@
       "warn",
       {
         "mainDescription": "^[A-Z`].*\\.$",
-        "matchDescription": "^[A-Z`].*\\.$",
+        "matchDescription": "^([A-Z`].*(\\.|:)|-\\s.*)$",
         "contexts": ["any"],
         "tags": {
           "param": true,
