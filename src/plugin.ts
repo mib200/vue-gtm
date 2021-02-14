@@ -49,7 +49,7 @@ export default class VueGtmPlugin {
    * @param id A GTM Container ID.
    * @param options Options.
    */
-  constructor(
+  public constructor(
     public readonly id: string | string[] | VueGtmContainer[],
     public readonly options: Pick<VueGtmUseOptions, keyof typeof DEFAULT_CONFIG | "queryParams"> = DEFAULT_CONFIG
   ) {}
@@ -59,7 +59,7 @@ export default class VueGtmPlugin {
    *
    * @returns `true` if the plugin is enabled, otherwise `false`.
    */
-  enabled(): boolean {
+  public enabled(): boolean {
     return this.options.enabled ?? true;
   }
 
@@ -74,7 +74,7 @@ export default class VueGtmPlugin {
    *
    * @param enabled `true` to enable, `false` to disable. Default: `true`.
    */
-  enable(enabled: boolean = true): void {
+  public enable(enabled: boolean = true): void {
     this.options.enabled = enabled;
 
     if (inBrowser && enabled && !hasScript() && this.options.loadScript) {
@@ -109,7 +109,7 @@ export default class VueGtmPlugin {
    *
    * @returns `true` if the plugin is in debug mode, otherwise `false`.
    */
-  debugEnabled(): boolean {
+  public debugEnabled(): boolean {
     return this.options.debug ?? false;
   }
 
@@ -118,7 +118,7 @@ export default class VueGtmPlugin {
    *
    * @param enable `true` to enable, `false` to disable.
    */
-  debug(enable: boolean): void {
+  public debug(enable: boolean): void {
     this.options.debug = enable;
   }
 
@@ -128,7 +128,7 @@ export default class VueGtmPlugin {
    *
    * @returns The `window.dataLayer` if script is running in browser context and plugin is enabled, otherwise `false`.
    */
-  dataLayer(): DataLayerObject[] | false {
+  public dataLayer(): DataLayerObject[] | false {
     if (inBrowser && this.options.enabled) {
       return (window.dataLayer = window.dataLayer ?? []);
     }
@@ -147,7 +147,7 @@ export default class VueGtmPlugin {
    * @param path Path passed as `"content-name"`.
    * @param additionalEventData Additional data for the event object. `event`, `"content-name"` and `"content-view-name"` will always be overridden.
    */
-  trackView(screenName: string, path: string, additionalEventData: Record<string, any> = {}): void {
+  public trackView(screenName: string, path: string, additionalEventData: Record<string, any> = {}): void {
     if (this.options.debug) {
       console.log("[VueGtm]: Dispatching TrackView", { screenName, path });
     }
@@ -179,7 +179,7 @@ export default class VueGtmPlugin {
    * @param param0.value Optional `value`, passed as `value`.
    * @param param0.noninteraction Optional `noninteraction`, passed as `"interaction-type"`.
    */
-  trackEvent({
+  public trackEvent({
     event,
     category = null,
     action = null,
