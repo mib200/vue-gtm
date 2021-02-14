@@ -22,11 +22,6 @@ declare global {
 }
 
 /**
- * Whether the script is running in a browser or not.
- */
-const inBrowser: boolean = typeof window !== "undefined";
-
-/**
  * Object definition for a track event.
  */
 export interface VueGtmTrackEventParams {
@@ -55,6 +50,15 @@ export default class VueGtmPlugin {
   ) {}
 
   /**
+   * Whether the script is running in a browser or not.
+   *
+   * You can override this function if you need to.
+   *
+   * @returns `true` if the script runs in browser context.
+   */
+  public isInBrowserContext: () => boolean = () => typeof window !== "undefined";
+
+  /**
    * Check if plugin is enabled.
    *
    * @returns `true` if the plugin is enabled, otherwise `false`.
@@ -77,7 +81,7 @@ export default class VueGtmPlugin {
   public enable(enabled: boolean = true): void {
     this.options.enabled = enabled;
 
-    if (inBrowser && enabled && !hasScript() && this.options.loadScript) {
+    if (this.isInBrowserContext() && enabled && !hasScript() && this.options.loadScript) {
       if (Array.isArray(this.id)) {
         this.id.forEach((id: string | VueGtmContainer) => {
           if (typeof id === "string") {
@@ -129,7 +133,7 @@ export default class VueGtmPlugin {
    * @returns The `window.dataLayer` if script is running in browser context and plugin is enabled, otherwise `false`.
    */
   public dataLayer(): DataLayerObject[] | false {
-    if (inBrowser && this.options.enabled) {
+    if (this.isInBrowserContext() && this.options.enabled) {
       return (window.dataLayer = window.dataLayer ?? []);
     }
     return false;
@@ -152,7 +156,7 @@ export default class VueGtmPlugin {
       console.log("[VueGtm]: Dispatching TrackView", { screenName, path });
     }
 
-    if (inBrowser && this.options.enabled) {
+    if (this.isInBrowserContext() && this.options.enabled) {
       const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
         ...additionalEventData,
@@ -199,7 +203,7 @@ export default class VueGtmPlugin {
       });
     }
 
-    if (inBrowser && this.options.enabled) {
+    if (this.isInBrowserContext() && this.options.enabled) {
       const dataLayer: DataLayerObject[] = (window.dataLayer = window.dataLayer ?? []);
       dataLayer.push({
         event: event ?? "interaction",

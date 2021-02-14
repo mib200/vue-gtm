@@ -65,7 +65,17 @@
       "warn",
       {
         "minLength": 3,
-        "skipWords": ["globals", "googletagmanager", "gtm", "noninteraction", "nullish", "pararms", "readonly", "vue"]
+        "skipWords": [
+          "globals",
+          "googletagmanager",
+          "gtm",
+          "noninteraction",
+          "nullish",
+          "overridable",
+          "pararms",
+          "readonly",
+          "vue"
+        ]
       }
     ]
   }
