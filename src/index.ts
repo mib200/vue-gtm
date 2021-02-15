@@ -47,7 +47,7 @@ function install(app: App, options: VueGtmUseOptions = { id: "" }): void {
 
   // Handle vue-router if defined
   if (options.vueRouter) {
-    initVueRouterGuard(app, options.vueRouter, options.ignoredViews, options.trackOnNextTick);
+    void initVueRouterGuard(app, options.vueRouter, options.ignoredViews, options.trackOnNextTick);
   }
 
   // Load GTM script when enabled
@@ -89,21 +89,23 @@ function install(app: App, options: VueGtmUseOptions = { id: "" }): void {
  *
  * @returns The ignored routes names normalized.
  */
-function initVueRouterGuard(
+async function initVueRouterGuard(
   app: App,
   vueRouter: VueGtmUseOptions["vueRouter"],
   ignoredViews: VueGtmUseOptions["ignoredViews"] = [],
   trackOnNextTick: VueGtmUseOptions["trackOnNextTick"]
-): string[] | undefined {
+): Promise<void> {
   if (!vueRouter) {
     console.warn("[VueGtm]: You tried to register 'vueRouter' for vue-gtm, but 'vue-router' was not found.");
     return;
   }
 
+  const { NavigationFailureType, isNavigationFailure } = await import("vue-router");
+
   // Flatten routes name
   ignoredViews = ignoredViews.map((view) => view.toLowerCase());
 
-  vueRouter.afterEach((to) => {
+  vueRouter.afterEach((to, from, failure) => {
     // Ignore some routes
     if (typeof to.name !== "string" || ignoredViews.indexOf(to.name.toLowerCase()) !== -1) {
       return;
@@ -111,6 +113,17 @@ function initVueRouterGuard(
 
     // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
     const name: string = to.meta && typeof to.meta.gtm === "string" && !!to.meta.gtm ? to.meta.gtm : to.name;
+
+    if (isNavigationFailure(failure, NavigationFailureType.aborted)) {
+      if (gtmPlugin?.debugEnabled()) {
+        console.log(`[VueGtm]: '${name}' not tracked due to navigation aborted`);
+      }
+    } else if (isNavigationFailure(failure, NavigationFailureType.cancelled)) {
+      if (gtmPlugin?.debugEnabled()) {
+        console.log(`[VueGtm]: '${name}' not tracked due to navigation cancelled`);
+      }
+    }
+
     const additionalEventData: Record<string, any> = to.meta?.gtmAdditionalEventData ?? {};
     const baseUrl: string = vueRouter.options?.history?.base ?? "";
     let fullUrl: string = baseUrl;
@@ -127,8 +140,6 @@ function initVueRouterGuard(
       gtmPlugin?.trackView(name, fullUrl, additionalEventData);
     }
   });
-
-  return ignoredViews;
 }
 
 /**

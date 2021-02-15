@@ -67,6 +67,7 @@
       {
         "minLength": 3,
         "skipWords": [
+          "cancelled",
           "globals",
           "googletagmanager",
           "gtm",

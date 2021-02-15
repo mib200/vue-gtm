@@ -5,6 +5,8 @@
 - Provide possibility to override `isInBrowserContext` check ([01f3651])
 - Significantly improve JSDoc ([9edc30d])
 - Add `vue-router` as `devDependency` for type definition ([593af25])
+- Do not track any views if navigation is aborted or cancelled  
+  _You can see logs in the browser console if you have enabled debug mode_
 - Fix `vue-router` access `base` from history options  
   _This only affects Vue 3_
 
