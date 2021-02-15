@@ -86,8 +86,6 @@ function install(app: App, options: VueGtmUseOptions = { id: "" }): void {
  * @param vueRouter The Vue router instance to attach the guard.
  * @param ignoredViews An array of route name that will be ignored.
  * @param trackOnNextTick Whether or not to call `trackView` in `Vue.nextTick`.
- *
- * @returns The ignored routes names normalized.
  */
 async function initVueRouterGuard(
   app: App,
