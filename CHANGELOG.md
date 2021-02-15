@@ -1,6 +1,10 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.3.2...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.4.0...master)
+
+# 3.4.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.2...3.4.0)
 
 - Provide possibility to override `isInBrowserContext` check ([01f3651])
 - Significantly improve JSDoc ([9edc30d])
