@@ -1,18 +1,26 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.3.2...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.4.0...master)
+
+# 3.4.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.3.2...3.4.0)
 
 - Provide possibility to override `isInBrowserContext` check ([01f3651])
 - Significantly improve JSDoc ([9edc30d])
 - Add `vue-router` as `devDependency` for type definition ([593af25])
-- Do not track any views if navigation is aborted or cancelled  
+
+**Vue 3 only**
+
+- Fix `vue-router` access `base` from history options ([e150975])
+- Do not track any views if navigation is aborted or cancelled ([007608b])  
   _You can see logs in the browser console if you have enabled debug mode_
-- Fix `vue-router` access `base` from history options  
-  _This only affects Vue 3_
 
 [01f3651]: https://github.com/mib200/vue-gtm/commit/01f3651de1df4f679c60af05697af41b1a38d39b
 [9edc30d]: https://github.com/mib200/vue-gtm/commit/9edc30daf0c2bdf542c82d07c2f413421f44de3d
 [593af25]: https://github.com/mib200/vue-gtm/commit/593af254f51a122f868c3687f42abdcb3549b07e
+[e150975]: https://github.com/mib200/vue-gtm/commit/e1509755536ee6219580422c2611620b5b89140d
+[007608b]: https://github.com/mib200/vue-gtm/commit/007608bfbdb68658d130b74b3802df1779d4fa5e
 
 # 3.3.2
 
