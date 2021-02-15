@@ -96,45 +96,38 @@ function initVueRouterGuard(
   trackOnNextTick: VueGtmUseOptions["trackOnNextTick"]
 ): string[] | undefined {
   if (!vueRouter) {
+    console.warn("[VueGtm]: You tried to register 'vueRouter' for vue-gtm, but 'vue-router' was not found.");
     return;
   }
 
   // Flatten routes name
   ignoredViews = ignoredViews.map((view) => view.toLowerCase());
 
-  vueRouter.afterEach(
-    (to: {
-      name?: string;
-      meta: Partial<{
-        gtm: string;
-        gtmAdditionalEventData: Record<string, any>;
-      }>;
-      fullPath: string;
-    }) => {
-      // Ignore some routes
-      if (!to.name || ignoredViews.indexOf(to.name.toLowerCase()) !== -1) {
-        return;
-      }
-
-      // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
-      const name: string = to.meta.gtm ?? to.name;
-      const additionalEventData: Record<string, any> = to.meta.gtmAdditionalEventData ?? {};
-      const baseUrl: string = vueRouter.options.base || "";
-      let fullUrl: string = baseUrl;
-      if (!fullUrl.endsWith("/")) {
-        fullUrl += "/";
-      }
-      fullUrl += to.fullPath.startsWith("/") ? to.fullPath.substr(1) : to.fullPath;
-
-      if (trackOnNextTick) {
-        void nextTick(() => {
-          gtmPlugin?.trackView(name, fullUrl, additionalEventData);
-        });
-      } else {
-        gtmPlugin?.trackView(name, fullUrl, additionalEventData);
-      }
+  vueRouter.afterEach((to) => {
+    // Ignore some routes
+    if (typeof to.name !== "string" || ignoredViews.indexOf(to.name.toLowerCase()) !== -1) {
+      return;
     }
-  );
+
+    // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
+    const name: string = to.meta && typeof to.meta.gtm === "string" && !!to.meta.gtm ? to.meta.gtm : to.name;
+    const additionalEventData: Record<string, any> = to.meta?.gtmAdditionalEventData ?? {};
+    // @ts-expect-error: check RouterOptions.base. Should it be `vueRouter.options.history.base`?
+    const baseUrl: string = vueRouter.options.base || "";
+    let fullUrl: string = baseUrl;
+    if (!fullUrl.endsWith("/")) {
+      fullUrl += "/";
+    }
+    fullUrl += to.fullPath.startsWith("/") ? to.fullPath.substr(1) : to.fullPath;
+
+    if (trackOnNextTick) {
+      void nextTick(() => {
+        gtmPlugin?.trackView(name, fullUrl, additionalEventData);
+      });
+    } else {
+      gtmPlugin?.trackView(name, fullUrl, additionalEventData);
+    }
+  });
 
   return ignoredViews;
 }

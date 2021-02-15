@@ -4,6 +4,7 @@
 
 - Provide possibility to override `isInBrowserContext` check
 - Significantly improve JSDoc ([9edc30d])
+- Add `vue-router` as `devDependency` for type definition
 
 [9edc30d]: https://github.com/mib200/vue-gtm/commit/9edc30daf0c2bdf542c82d07c2f413421f44de3d
 
