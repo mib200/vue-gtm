@@ -2,11 +2,13 @@
 
 [diff](https://github.com/mib200/vue-gtm/compare/3.3.2...master)
 
-- Provide possibility to override `isInBrowserContext` check
+- Provide possibility to override `isInBrowserContext` check ([01f3651])
 - Significantly improve JSDoc ([9edc30d])
-- Add `vue-router` as `devDependency` for type definition
+- Add `vue-router` as `devDependency` for type definition ([593af25])
 
+[01f3651]: https://github.com/mib200/vue-gtm/commit/01f3651de1df4f679c60af05697af41b1a38d39b
 [9edc30d]: https://github.com/mib200/vue-gtm/commit/9edc30daf0c2bdf542c82d07c2f413421f44de3d
+[593af25]: https://github.com/mib200/vue-gtm/commit/593af254f51a122f868c3687f42abdcb3549b07e
 
 # 3.3.2
 
