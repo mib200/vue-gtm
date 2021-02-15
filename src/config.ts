@@ -1,3 +1,5 @@
+import type Router from "vue-router";
+
 /**
  * Query parameter object that will be send to GTM.
  */
@@ -99,10 +101,7 @@ export interface VueGtmUseOptions {
   /**
    * Pass the router instance to automatically sync with router.
    */
-  vueRouter?: {
-    readonly options: any;
-    afterEach(guard: (to: any, from: any) => any): () => void;
-  };
+  vueRouter?: Router;
   /**
    * Don't trigger events for specified router names (case insensitive).
    */
