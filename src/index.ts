@@ -112,8 +112,7 @@ function initVueRouterGuard(
     // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
     const name: string = to.meta && typeof to.meta.gtm === "string" && !!to.meta.gtm ? to.meta.gtm : to.name;
     const additionalEventData: Record<string, any> = to.meta?.gtmAdditionalEventData ?? {};
-    // @ts-expect-error: check RouterOptions.base. Should it be `vueRouter.options.history.base`?
-    const baseUrl: string = vueRouter.options.base || "";
+    const baseUrl: string = vueRouter.options?.history?.base ?? "";
     let fullUrl: string = baseUrl;
     if (!fullUrl.endsWith("/")) {
       fullUrl += "/";

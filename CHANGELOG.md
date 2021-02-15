@@ -5,6 +5,8 @@
 - Provide possibility to override `isInBrowserContext` check ([01f3651])
 - Significantly improve JSDoc ([9edc30d])
 - Add `vue-router` as `devDependency` for type definition ([593af25])
+- Fix `vue-router` access `base` from history options  
+  _This only affects Vue 3_
 
 [01f3651]: https://github.com/mib200/vue-gtm/commit/01f3651de1df4f679c60af05697af41b1a38d39b
 [9edc30d]: https://github.com/mib200/vue-gtm/commit/9edc30daf0c2bdf542c82d07c2f413421f44de3d
