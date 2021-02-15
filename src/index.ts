@@ -92,7 +92,7 @@ function initVueRouterGuard(
   vueRouter: VueGtmUseOptions["vueRouter"],
   ignoredViews: VueGtmUseOptions["ignoredViews"] = [],
   trackOnNextTick: VueGtmUseOptions["trackOnNextTick"]
-): string[] | undefined {
+): void {
   if (!vueRouter) {
     console.warn("[VueGtm]: You tried to register 'vueRouter' for vue-gtm, but 'vue-router' was not found.");
     return;
@@ -101,7 +101,6 @@ function initVueRouterGuard(
   // Flatten routes name
   ignoredViews = ignoredViews.map((view) => view.toLowerCase());
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   vueRouter.afterEach((to) => {
     // Ignore some routes
     if (typeof to.name !== "string" || ignoredViews.indexOf(to.name.toLowerCase()) !== -1) {
@@ -126,8 +125,6 @@ function initVueRouterGuard(
       gtmPlugin?.trackView(name, fullUrl, additionalEventData);
     }
   });
-
-  return ignoredViews;
 }
 
 declare module "vue/types/vue" {
