@@ -11,6 +11,7 @@ export interface DataLayerObject extends Record<string, any> {
 }
 
 declare global {
+  // eslint-disable-next-line jsdoc/require-jsdoc
   interface Window {
     /**
      * `dataLayer` used by GTM.

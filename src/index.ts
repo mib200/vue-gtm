@@ -151,6 +151,7 @@ export function createGtm(options: VueGtmUseOptions): VueGtmPlugin {
 }
 
 declare module "@vue/runtime-core" {
+  // eslint-disable-next-line jsdoc/require-jsdoc
   export interface ComponentCustomProperties {
     /**
      * The Vue GTM Plugin instance.
