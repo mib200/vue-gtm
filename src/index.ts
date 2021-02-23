@@ -122,7 +122,7 @@ async function initVueRouterGuard(
       }
     }
 
-    const additionalEventData: Record<string, any> = to.meta?.gtmAdditionalEventData ?? {};
+    const additionalEventData: Record<string, any> = (to.meta?.gtmAdditionalEventData as Record<string, any>) ?? {};
     const baseUrl: string = vueRouter.options?.history?.base ?? "";
     let fullUrl: string = baseUrl;
     if (!fullUrl.endsWith("/")) {
