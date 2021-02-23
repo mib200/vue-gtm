@@ -275,7 +275,7 @@ Enable debug mode
 this.$gtm.debug(true);
 ```
 
-Disable plugin
+Disable debug mode
 
 ```js
 this.$gtm.debug(false);
