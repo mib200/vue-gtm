@@ -1,4 +1,5 @@
 import { createGtm } from "../src/index";
+import type { DataLayerObject } from "../src/plugin";
 import VueGtmPlugin from "../src/plugin";
 import { appendAppDivToBody, cleanUpDataLayer, createAppWithComponent } from "./vue-helper";
 
@@ -155,8 +156,10 @@ describe("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
 
-    const dataLayer = gtmPlugin.dataLayer();
-    if (dataLayer) dataLayer.push({ "user-id": "user-123" });
+    const dataLayer: DataLayerObject[] | false = gtmPlugin.dataLayer();
+    if (dataLayer) {
+      dataLayer.push({ "user-id": "user-123" });
+    }
 
     expect(window["dataLayer"]).toEqual(
       expect.arrayContaining([
