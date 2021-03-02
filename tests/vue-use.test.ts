@@ -148,6 +148,25 @@ describe("Vue.use", () => {
     expect(gtmPlugin.dataLayer()).toEqual(window["dataLayer"]);
   });
 
+  test("should allow dataLayer to be called with no event, without Typescript error", () => {
+    appendAppDivToBody();
+    const { app } = createAppWithComponent();
+    app.use(createGtm({ id: "GTM-DEMO" })).mount("#app");
+
+    const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
+
+    const dataLayer = gtmPlugin.dataLayer();
+    if (dataLayer) dataLayer.push({ "user-id": "user-123" });
+
+    expect(window["dataLayer"]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          "user-id": "user-123",
+        }),
+      ])
+    );
+  });
+
   test("should expose trackView function", () => {
     appendAppDivToBody();
     const { app } = createAppWithComponent();
