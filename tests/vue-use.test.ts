@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { CombinedVueInstance, ExtendedVue } from "vue/types/vue";
 import VueGtm from "../src/index";
+import type { DataLayerObject } from "../src/plugin";
 import VueGtmPlugin from "../src/plugin";
 import { appendAppDivToBody, cleanUpDataLayer, createAppWithComponent } from "./vue-helper";
 
@@ -205,6 +206,33 @@ describe.skip("Vue.use", () => {
 
     gtmPlugin.enable(true);
     expect(gtmPlugin.dataLayer()).toEqual(window["dataLayer"]);
+  });
+
+  test("should allow dataLayer to be called with no event, without Typescript error", () => {
+    appendAppDivToBody();
+    const { app } = createAppWithComponent();
+
+    Vue.use(VueGtm, { id: "GTM-DEMO" });
+
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const vue: CombinedVueInstance<Vue, object, object, object, Record<never, any>> = new Vue({
+      render: (h) => h(app),
+    }).$mount("#app");
+
+    const gtmPlugin: VueGtmPlugin = vue.$gtm;
+
+    const dataLayer: DataLayerObject[] | false = gtmPlugin.dataLayer();
+    if (dataLayer) {
+      dataLayer.push({ "user-id": "user-123" });
+    }
+
+    expect(window["dataLayer"]).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          "user-id": "user-123",
+        }),
+      ])
+    );
   });
 
   test("should expose trackView function", () => {

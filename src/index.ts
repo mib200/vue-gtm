@@ -126,14 +126,25 @@ function initVueRouterGuard(
 }
 
 declare module "vue/types/vue" {
+  // eslint-disable-next-line jsdoc/require-jsdoc
   export interface Vue {
+    /**
+     * The Vue GTM Plugin instance.
+     */
     $gtm: GtmPlugin;
   }
+  // eslint-disable-next-line jsdoc/require-jsdoc
   export interface VueConstructor<V extends Vue = Vue> {
+    /**
+     * The Vue GTM Plugin instance.
+     */
     gtm: GtmPlugin;
   }
 }
 
+/**
+ * Vue GTM Plugin.
+ */
 export type VueGtmPlugin = PluginObject<VueGtmUseOptions>;
 export { VueGtmUseOptions } from "./config";
 

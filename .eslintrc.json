@@ -8,9 +8,8 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "prettier",
-    "prettier/@typescript-eslint",
-    "plugin:jsdoc/recommended"
+    "plugin:jsdoc/recommended",
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -49,8 +48,8 @@
     "jsdoc/match-description": [
       "warn",
       {
-        "mainDescription": "^[A-Z`].*\\.$",
-        "matchDescription": "^([A-Z`].*(\\.|:)|-\\s.*)$",
+        "mainDescription": "/^[A-Z`].+?(\\.|:)(\\n\\n.*((\\n{1,2}- .+)|(_.+_)|`.+`|\\n\\n---))?$/us",
+        "matchDescription": "^[A-Z`].+(\\.|`.+`)$",
         "contexts": ["any"],
         "tags": {
           "param": true,
@@ -59,6 +58,23 @@
       }
     ],
     "jsdoc/no-types": "error",
+    "jsdoc/require-jsdoc": [
+      "warn",
+      {
+        "contexts": [
+          "ClassDeclaration",
+          "ClassProperty:not([accessibility='private'])",
+          "ExportNamedDeclaration:has(VariableDeclaration)",
+          "FunctionExpression",
+          "MethodDefinition:not([accessibility='private']) > FunctionExpression",
+          "TSEnumDeclaration",
+          "TSInterfaceDeclaration",
+          "TSMethodSignature",
+          // 'TSPropertySignature',
+          "TSTypeAliasDeclaration"
+        ]
+      }
+    ],
     "jsdoc/require-param-type": "off",
     "jsdoc/require-returns-type": "off",
 
@@ -71,6 +87,7 @@
           "globals",
           "googletagmanager",
           "gtm",
+          "jsdoc",
           "noninteraction",
           "nullish",
           "overridable",
@@ -80,5 +97,10 @@
         ]
       }
     ]
+  },
+  "settings": {
+    "jsdoc": {
+      "mode": "typescript"
+    }
   }
 }

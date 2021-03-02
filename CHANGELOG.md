@@ -1,6 +1,15 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.4.0...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.4.1...master)
+
+# 3.4.1
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.4.0...3.4.1)
+
+- Make `event` optional in `DataLayerObject` ([#119])  
+  _You may need to add some null checks when accessing the event._
+
+[#119]: https://github.com/mib200/vue-gtm/issues/119
 
 # 3.4.0
 
