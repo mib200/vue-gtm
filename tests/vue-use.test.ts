@@ -155,9 +155,8 @@ describe("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
 
-    const dataLayer =  gtmPlugin.dataLayer()
-    if (dataLayer)
-      dataLayer.push({'user-id': 'user-123'})
+    const dataLayer = gtmPlugin.dataLayer();
+    if (dataLayer) dataLayer.push({ "user-id": "user-123" });
 
     expect(window["dataLayer"]).toEqual(
       expect.arrayContaining([
