@@ -92,9 +92,7 @@ describe("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.enable).toBeInstanceOf(Function);
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.enabled).toBeInstanceOf(Function);
 
     expect(gtmPlugin.enabled()).toBeFalsy();
@@ -116,9 +114,7 @@ describe("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.debug).toBeInstanceOf(Function);
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.debugEnabled).toBeInstanceOf(Function);
 
     expect(gtmPlugin.debugEnabled()).toBeFalsy();
@@ -137,9 +133,7 @@ describe("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.dataLayer).toBeInstanceOf(Function);
-
     expect(gtmPlugin.dataLayer()).toEqual(window["dataLayer"]);
 
     gtmPlugin.enable(false);
@@ -177,7 +171,6 @@ describe("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.trackView).toBeInstanceOf(Function);
 
     gtmPlugin.trackView("ScreenName", "Path");
@@ -204,7 +197,6 @@ describe("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = app.config.globalProperties.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.trackEvent).toBeInstanceOf(Function);
 
     gtmPlugin.trackEvent();

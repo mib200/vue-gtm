@@ -20,9 +20,7 @@
     "clean": "rm -Rf dist yarn.lock node_modules",
     "build": "tsc",
     "format": "prettier --write .",
-    "lint": "yarn lint:src",
-    "lint:src": "eslint --ext .ts src",
-    "lint:test": "eslint --ext .test.ts tests",
+    "lint": "eslint .",
     "test": "jest",
     "prepublishOnly": "yarn clean && yarn install --cache-folder .yarn && yarn build"
   },
