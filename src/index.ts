@@ -89,16 +89,17 @@ function install(app: App, options: VueGtmUseOptions = { id: "" }): void {
  */
 async function initVueRouterGuard(
   app: App,
-  vueRouter: VueGtmUseOptions["vueRouter"],
+  vueRouter: Exclude<VueGtmUseOptions["vueRouter"], undefined>,
   ignoredViews: VueGtmUseOptions["ignoredViews"] = [],
   trackOnNextTick: VueGtmUseOptions["trackOnNextTick"]
 ): Promise<void> {
-  if (!vueRouter) {
+  let vueRouterModule: typeof import("vue-router");
+  try {
+    vueRouterModule = await import("vue-router");
+  } catch {
     console.warn("[VueGtm]: You tried to register 'vueRouter' for vue-gtm, but 'vue-router' was not found.");
     return;
   }
-
-  const { NavigationFailureType, isNavigationFailure } = await import("vue-router");
 
   // Flatten routes name
   ignoredViews = ignoredViews.map((view) => view.toLowerCase());
@@ -112,11 +113,11 @@ async function initVueRouterGuard(
     // Dispatch vue event using meta gtm value if defined otherwise fallback to route name
     const name: string = to.meta && typeof to.meta.gtm === "string" && !!to.meta.gtm ? to.meta.gtm : to.name;
 
-    if (isNavigationFailure(failure, NavigationFailureType.aborted)) {
+    if (vueRouterModule.isNavigationFailure(failure, vueRouterModule.NavigationFailureType.aborted)) {
       if (gtmPlugin?.debugEnabled()) {
         console.log(`[VueGtm]: '${name}' not tracked due to navigation aborted`);
       }
-    } else if (isNavigationFailure(failure, NavigationFailureType.cancelled)) {
+    } else if (vueRouterModule.isNavigationFailure(failure, vueRouterModule.NavigationFailureType.cancelled)) {
       if (gtmPlugin?.debugEnabled()) {
         console.log(`[VueGtm]: '${name}' not tracked due to navigation cancelled`);
       }
