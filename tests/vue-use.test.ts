@@ -1,11 +1,12 @@
 import { createGtm } from "../src/index";
 import type { DataLayerObject } from "../src/plugin";
 import VueGtmPlugin from "../src/plugin";
-import { appendAppDivToBody, cleanUpDataLayer, createAppWithComponent } from "./vue-helper";
+import { appendAppDivToBody, createAppWithComponent, resetDataLayer, resetHtml } from "./vue-helper";
 
 describe("Vue.use", () => {
   afterEach(() => {
-    cleanUpDataLayer();
+    resetHtml();
+    resetDataLayer();
   });
 
   test("should append google tag manager script to DOM", () => {
@@ -83,6 +84,47 @@ describe("Vue.use", () => {
     expect(document.scripts.length).toBe(1);
     expect(document.scripts.item(0)).toBeDefined();
     expect(document.scripts.item(0)?.src).toBe("https://www.googletagmanager.com/gtm.js?id=GTM-DEMO");
+  });
+
+  describe("Check src.nonce", () => {
+    afterEach(() => {
+      resetHtml();
+    });
+
+    test("should not set src.nonce by default", () => {
+      appendAppDivToBody();
+      const { app } = createAppWithComponent();
+
+      app.use(createGtm({ id: "GTM-DEMO" })).mount("#app");
+
+      expect(document.scripts.length).toBe(1);
+      expect(document.scripts.item(0)).toBeDefined();
+      expect(document.scripts.item(0)?.nonce).toBe("");
+    });
+
+    test("should set src.nonce if configured", () => {
+      appendAppDivToBody();
+      const { app } = createAppWithComponent();
+
+      const nonce: string = "2726c7f26c";
+
+      app.use(createGtm({ id: "GTM-DEMO", nonce })).mount("#app");
+
+      expect(document.scripts.length).toBe(1);
+      expect(document.scripts.item(0)).toBeDefined();
+      expect(document.scripts.item(0)?.nonce).toBe(nonce);
+    });
+
+    test("should set src.nonce to empty", () => {
+      appendAppDivToBody();
+      const { app } = createAppWithComponent();
+
+      app.use(createGtm({ id: "GTM-DEMO", nonce: "" })).mount("#app");
+
+      expect(document.scripts.length).toBe(1);
+      expect(document.scripts.item(0)).toBeDefined();
+      expect(document.scripts.item(0)?.nonce).toBe("");
+    });
   });
 
   test("should expose enable and enabled function", () => {
