@@ -1,6 +1,19 @@
 # Next
 
-[diff](https://github.com/mib200/vue-gtm/compare/3.4.1...master)
+[diff](https://github.com/mib200/vue-gtm/compare/3.5.0...master)
+
+# 3.5.0
+
+[diff](https://github.com/mib200/vue-gtm/compare/3.4.1...3.5.0)
+
+- Add `nonce` for CSP support ([#116])
+
+**Vue 3 only**
+
+- Handle optional dependency of `vue-router` ([#122])
+
+[#116]: https://github.com/mib200/vue-gtm/issues/116
+[#122]: https://github.com/mib200/vue-gtm/issues/122
 
 # 3.4.1
 

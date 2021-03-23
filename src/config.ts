@@ -81,6 +81,12 @@ export interface VueGtmUseOptions {
    */
   compatibility?: boolean;
   /**
+   * Will add `nonce` to the script tag.
+   *
+   * @see [Using Google Tag Manager with a Content Security Policy](https://developers.google.com/tag-manager/web/csp)
+   */
+  nonce?: string;
+  /**
    * Plugin can be disabled by setting this to `false`.
    *
    * @example enabled: !!GDPR_Cookie

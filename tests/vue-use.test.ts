@@ -3,14 +3,15 @@ import { CombinedVueInstance, ExtendedVue } from "vue/types/vue";
 import VueGtm from "../src/index";
 import type { DataLayerObject } from "../src/plugin";
 import VueGtmPlugin from "../src/plugin";
-import { appendAppDivToBody, cleanUpDataLayer, createAppWithComponent } from "./vue-helper";
+import { appendAppDivToBody, createAppWithComponent, resetDataLayer, resetHtml } from "./vue-helper";
 
 // TODO: Find out why Vue in vue-2 is undefined
 
 // Skip for now
 describe.skip("Vue.use", () => {
   afterEach(() => {
-    cleanUpDataLayer();
+    resetHtml();
+    resetDataLayer();
   });
 
   test("should append google tag manager script to DOM", () => {
@@ -126,6 +127,74 @@ describe.skip("Vue.use", () => {
     expect(document.scripts.item(0)?.src).toBe("https://www.googletagmanager.com/gtm.js?id=GTM-DEMO");
   });
 
+  describe("Check src.nonce", () => {
+    afterEach(() => {
+      resetHtml();
+    });
+
+    test("should not set src.nonce by default", () => {
+      appendAppDivToBody();
+      const app: ExtendedVue<Vue, unknown, unknown, unknown, Record<never, any>> = Vue.extend({
+        name: "App",
+        render(createElement) {
+          return createElement("div");
+        },
+      });
+
+      Vue.use(VueGtm, { id: "GTM-DEMO" });
+
+      new Vue({
+        render: (h) => h(app),
+      }).$mount("#app");
+
+      expect(document.scripts.length).toBe(1);
+      expect(document.scripts.item(0)).toBeDefined();
+      expect(document.scripts.item(0)?.nonce).toBe("");
+    });
+
+    test("should set src.nonce if configured", () => {
+      appendAppDivToBody();
+      const app: ExtendedVue<Vue, unknown, unknown, unknown, Record<never, any>> = Vue.extend({
+        name: "App",
+        render(createElement) {
+          return createElement("div");
+        },
+      });
+
+      const nonce: string = "2726c7f26c";
+
+      Vue.use(VueGtm, { id: "GTM-DEMO", nonce });
+
+      new Vue({
+        render: (h) => h(app),
+      }).$mount("#app");
+
+      expect(document.scripts.length).toBe(1);
+      expect(document.scripts.item(0)).toBeDefined();
+      expect(document.scripts.item(0)?.nonce).toBe(nonce);
+    });
+
+    test("should set src.nonce to empty", () => {
+      appendAppDivToBody();
+      const app: ExtendedVue<Vue, unknown, unknown, unknown, Record<never, any>> = Vue.extend({
+        name: "App",
+        render(createElement) {
+          return createElement("div");
+        },
+      });
+
+      Vue.use(VueGtm, { id: "GTM-DEMO", nonce: "" });
+
+      new Vue({
+        render: (h) => h(app),
+      }).$mount("#app");
+
+      expect(document.scripts.length).toBe(1);
+      expect(document.scripts.item(0)).toBeDefined();
+      expect(document.scripts.item(0)?.nonce).toBe("");
+    });
+  });
+
   test("should expose enable and enabled function", () => {
     appendAppDivToBody();
     const { app } = createAppWithComponent();
@@ -139,9 +208,7 @@ describe.skip("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = vue.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.enable).toBeInstanceOf(Function);
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.enabled).toBeInstanceOf(Function);
 
     expect(gtmPlugin.enabled()).toBeFalsy();
@@ -169,9 +236,7 @@ describe.skip("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = vue.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.debug).toBeInstanceOf(Function);
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.debugEnabled).toBeInstanceOf(Function);
 
     expect(gtmPlugin.debugEnabled()).toBeFalsy();
@@ -196,9 +261,7 @@ describe.skip("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = vue.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.dataLayer).toBeInstanceOf(Function);
-
     expect(gtmPlugin.dataLayer()).toEqual(window["dataLayer"]);
 
     gtmPlugin.enable(false);
@@ -248,7 +311,6 @@ describe.skip("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = vue.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.trackView).toBeInstanceOf(Function);
 
     gtmPlugin.trackView("ScreenName", "Path");
@@ -281,7 +343,6 @@ describe.skip("Vue.use", () => {
 
     const gtmPlugin: VueGtmPlugin = vue.$gtm;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(gtmPlugin.trackEvent).toBeInstanceOf(Function);
 
     gtmPlugin.trackEvent();

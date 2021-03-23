@@ -87,7 +87,7 @@ function install(Vue: typeof _Vue, options: VueGtmUseOptions = { id: "" }): void
  */
 function initVueRouterGuard(
   Vue: typeof _Vue,
-  vueRouter: VueGtmUseOptions["vueRouter"],
+  vueRouter: Exclude<VueGtmUseOptions["vueRouter"], undefined>,
   ignoredViews: VueGtmUseOptions["ignoredViews"] = [],
   trackOnNextTick: VueGtmUseOptions["trackOnNextTick"]
 ): void {
