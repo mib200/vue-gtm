@@ -1,10 +1,11 @@
 import type { App } from "vue";
 import VueGtm, { createGtm, useGtm } from "../src/index";
-import { appendAppDivToBody, cleanUpDataLayer, createAppWithComponent } from "./vue-helper";
+import { appendAppDivToBody, createAppWithComponent, resetDataLayer, resetHtml } from "./vue-helper";
 
 describe("Default", () => {
   afterEach(() => {
-    cleanUpDataLayer();
+    resetHtml();
+    resetDataLayer();
   });
 
   test("should expose Vue plugin", () => {

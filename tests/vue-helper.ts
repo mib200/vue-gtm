@@ -19,8 +19,11 @@ export function createAppWithComponent() {
   return { app, component: appComponent };
 }
 
-export function cleanUpDataLayer(): void {
+export function resetHtml(): void {
   const html: HTMLHtmlElement = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
   html.innerHTML = "";
+}
+
+export function resetDataLayer(): void {
   delete window["dataLayer"];
 }

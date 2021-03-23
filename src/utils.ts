@@ -9,7 +9,7 @@ import { VueGtmUseOptions } from "./config";
  */
 export function loadScript(
   id: string,
-  config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "queryParams"> = {}
+  config: Pick<VueGtmUseOptions, "defer" | "compatibility" | "nonce" | "queryParams"> = {}
 ): void {
   const doc: Document = document;
   const script: HTMLScriptElement = doc.createElement("script");
@@ -28,6 +28,10 @@ export function loadScript(
   script.async = !config.defer;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   script.defer = Boolean(config.defer || config.compatibility);
+
+  if (config.nonce) {
+    script.nonce = config.nonce;
+  }
 
   const queryString: URLSearchParams = new URLSearchParams({
     id,
