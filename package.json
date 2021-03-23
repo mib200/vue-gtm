@@ -78,5 +78,8 @@
   },
   "peerDependencies": {
     "vue": "^3.0.0"
+  },
+  "optionalDependencies": {
+    "vue-router": "^4.0.0"
   }
 }
