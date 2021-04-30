@@ -1,3 +1,11 @@
+<h1 align="center" style="color: red">This package is not maintained anymore and is now moved to a new home</h1>
+
+<p align="center" style="color: green">
+    New packages are <a href="https://github.com/gtm-support/vue-gtm">@gtm-support/vue-gtm</a> for <b>Vue 3</b> and <a href="https://github.com/gtm-support/vue-gtm/tree/vue2-gtm">@gtm-support/vue2-gtm</a> for <b>Vue 2</b>
+</p>
+
+---
+
 <h1 align="center">Vue Google Tag Manager</h1>
 
 <h4 align="center">*** Maintainers & Contributors welcome ***</h4>
